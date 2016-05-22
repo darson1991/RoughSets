@@ -1,6 +1,8 @@
 using GalaSoft.MvvmLight.Ioc;
 using Microsoft.Practices.ServiceLocation;
+using RoughSets.MvvmUtils.Providers;
 using ViewModels;
+using ViewModels.Providers;
 
 namespace RoughSets.MvvmUtils
 {
@@ -12,11 +14,14 @@ namespace RoughSets.MvvmUtils
         {
             ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
 
+            SimpleIoc.Default.Register(CreateOpenFIleDialogProvider);
+
             SimpleIoc.Default.Register<MainViewModel>(true);
         }
 
-        public static void Cleanup()
+        private static IOpenFileDialogProvider CreateOpenFIleDialogProvider()
         {
+            return new OpenFileDialogProvider();
         }
     }
 }
