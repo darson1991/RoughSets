@@ -1,7 +1,8 @@
 using GalaSoft.MvvmLight.Ioc;
 using Microsoft.Practices.ServiceLocation;
+using ViewModels;
 
-namespace ViewModels.MvvmUtils
+namespace RoughSets.MvvmUtils
 {
     public class ViewModelLocator
     {

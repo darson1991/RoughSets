@@ -1,7 +1,16 @@
-﻿namespace ViewModels
+﻿using GalaSoft.MvvmLight.Command;
+
+namespace ViewModels
 {
     public class MainViewModel
     {
-        public string Lol => "Loldas";
+        private RelayCommand _browseFileCommand;
+
+        public RelayCommand BrowseFileCommand => _browseFileCommand ?? (_browseFileCommand = new RelayCommand(BrowseFile));
+
+        private static void BrowseFile()
+        {
+
+        }
     }
 }
