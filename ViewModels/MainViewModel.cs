@@ -49,8 +49,15 @@ namespace ViewModels
 
         private void FillData()
         {
-            ReadContentAndDescriptionFiles();
-            PrepareRoughSetInformations();
+            try
+            {
+                ReadContentAndDescriptionFiles();
+                PrepareRoughSetInformations();
+            }
+            catch (Exception exception)
+            {
+                
+            }
         }
 
         private void ReadContentAndDescriptionFiles()
@@ -68,9 +75,9 @@ namespace ViewModels
             CreateRoughSetInformations(argumentNames, decisionClasses);
         }
 
-        private static List<string> PrepareArgumentNames(string[] lines)
+        private static List<string> PrepareArgumentNames(IReadOnlyList<string> lines)
         {
-            if(lines == null && lines.Length == 0)
+            if(lines == null || lines.Count == 0)
                 return new List<string>();
             var argumentNames = lines[0].Split(',').ToList();
             RepairLastArgumentName(argumentNames);
