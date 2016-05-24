@@ -12,6 +12,7 @@ namespace ViewModels
     public class MainViewModel : ViewModelBase
     {
         private readonly IOpenFileDialogProvider _openFileDialogProvider;
+        private readonly IMessageBoxProvider _messageBoxProvider;
 
         private RelayCommand _browseFileCommand;
         private RelayCommand _fillDataCommand;
@@ -36,9 +37,10 @@ namespace ViewModels
 
         public RoughSetInformations RoughSetInformations { get; private set; }
 
-        public MainViewModel(IOpenFileDialogProvider openFileDialogProvider)
+        public MainViewModel(IOpenFileDialogProvider openFileDialogProvider, IMessageBoxProvider messageBoxProvider)
         {
             _openFileDialogProvider = openFileDialogProvider;
+            _messageBoxProvider = messageBoxProvider;
         }
 
         private void BrowseFile()
@@ -53,10 +55,11 @@ namespace ViewModels
             {
                 ReadContentAndDescriptionFiles();
                 PrepareRoughSetInformations();
+                PrepareDataObjects();
             }
-            catch (Exception exception)
+            catch (Exception)
             {
-                
+                _messageBoxProvider.ShowMessage("The file which you chose have bad data or haven't description file.");
             }
         }
 
@@ -68,26 +71,29 @@ namespace ViewModels
 
         private void PrepareRoughSetInformations()
         {
-            var lines = _attributesDescription.Substring(0, _attributesDescription.Length - 2).Split('\n');
+            var stringSeparators = new[] { "\r\n" };
+            var lines = _attributesDescription.Substring(0, _attributesDescription.Length - 2).Split(stringSeparators, StringSplitOptions.None);
             var argumentNames = PrepareArgumentNames(lines);
             var decisionClasses = PrepareDecisionClasses(lines);
 
             CreateRoughSetInformations(argumentNames, decisionClasses);
         }
 
+        private void PrepareDataObjects()
+        {
+            var stringSeparators = new[] { "\r\n" };
+            var lines = _roughSetsFileContent.Substring(0, _roughSetsFileContent.Length - 2).Split(stringSeparators, StringSplitOptions.None);
+            var convertDataToNumbers = new ConvertDataToNumbers();
+            convertDataToNumbers.PrepareListOfStringColumns(lines[0]);
+        }
+
         private static List<string> PrepareArgumentNames(IReadOnlyList<string> lines)
         {
             if(lines == null || lines.Count == 0)
                 return new List<string>();
-            var argumentNames = lines[0].Split(',').ToList();
-            RepairLastArgumentName(argumentNames);
-            return argumentNames;
-        }
 
-        private static void RepairLastArgumentName(IList<string> arguments)
-        {
-            var lastArgument = arguments[arguments.Count - 1];
-            arguments[arguments.Count - 1] = lastArgument.Remove(lastArgument.Length - 2);
+            var argumentNames = lines[0].Split(',').ToList();
+            return argumentNames;
         }
 
         private static List<string> PrepareDecisionClasses(IReadOnlyList<string> lines)

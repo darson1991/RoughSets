@@ -15,6 +15,7 @@ namespace RoughSets.MvvmUtils
             ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
 
             SimpleIoc.Default.Register(CreateOpenFIleDialogProvider);
+            SimpleIoc.Default.Register(CreateMessageBoxProvider);
 
             SimpleIoc.Default.Register<MainViewModel>(true);
         }
@@ -22,6 +23,11 @@ namespace RoughSets.MvvmUtils
         private static IOpenFileDialogProvider CreateOpenFIleDialogProvider()
         {
             return new OpenFileDialogProvider();
+        }
+
+        private static IMessageBoxProvider CreateMessageBoxProvider()
+        {
+            return new MessageBoxProvider();
         }
     }
 }

@@ -89,6 +89,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MvvmUtils\Providers\MessageBoxProvider.cs" />
     <Compile Include="MvvmUtils\Providers\OpenFileDialogProvider.cs" />
     <Compile Include="MvvmUtils\ViewModelLocator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -108,7 +109,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

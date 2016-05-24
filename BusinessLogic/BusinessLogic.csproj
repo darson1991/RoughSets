@@ -40,9 +40,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataObject.cs" />
+    <Compile Include="Helpers\ConvertDataToNumbers.cs" />
     <Compile Include="Helpers\FileOperations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RoughSetObject.cs" />
     <Compile Include="RoughSetInformations.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
