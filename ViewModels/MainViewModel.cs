@@ -13,6 +13,7 @@ namespace ViewModels
     {
         private readonly IOpenFileDialogProvider _openFileDialogProvider;
         private readonly IMessageBoxProvider _messageBoxProvider;
+        private readonly StringToNumberConverter _stringToNumberConverter;
 
         private RelayCommand _browseFileCommand;
         private RelayCommand _fillDataCommand;
@@ -22,6 +23,7 @@ namespace ViewModels
 
         public RelayCommand BrowseFileCommand => _browseFileCommand ?? (_browseFileCommand = new RelayCommand(BrowseFile));
         public RelayCommand FillDataCommand => _fillDataCommand ?? (_fillDataCommand = new RelayCommand(FillData));
+        public string DescritpionFileUrl => ContentFileUrl.Insert(ContentFileUrl.Length - 4, "_descr");
 
         public string ContentFileUrl
         {
@@ -33,7 +35,7 @@ namespace ViewModels
             }
         }
 
-        public string DescritpionFileUrl => ContentFileUrl.Insert(ContentFileUrl.Length - 4, "_descr");
+        public List<DataObject> DataObjects { get; private set; } 
 
         public RoughSetInformations RoughSetInformations { get; private set; }
 
@@ -41,6 +43,8 @@ namespace ViewModels
         {
             _openFileDialogProvider = openFileDialogProvider;
             _messageBoxProvider = messageBoxProvider;
+            _stringToNumberConverter = new StringToNumberConverter();
+            DataObjects = new List<DataObject>();
         }
 
         private void BrowseFile()
@@ -55,12 +59,12 @@ namespace ViewModels
             {
                 ReadContentAndDescriptionFiles();
                 PrepareRoughSetInformations();
-                PrepareDataObjects();
             }
             catch (Exception)
             {
                 _messageBoxProvider.ShowMessage("The file which you chose have bad data or haven't description file.");
             }
+            PrepareDataObjects();
         }
 
         private void ReadContentAndDescriptionFiles()
@@ -83,8 +87,16 @@ namespace ViewModels
         {
             var stringSeparators = new[] { "\r\n" };
             var lines = _roughSetsFileContent.Substring(0, _roughSetsFileContent.Length - 2).Split(stringSeparators, StringSplitOptions.None);
-            var convertDataToNumbers = new ConvertDataToNumbers();
-            convertDataToNumbers.PrepareListOfStringColumns(lines[0]);
+            _stringToNumberConverter.ConvertStringsToNumbers(lines);
+
+            foreach (var argumentsValuesCollection in lines.Select(line => line.Split(',')))
+            {
+                DataObjects.Add(new DataObject
+                {
+                    Decision = double.Parse(argumentsValuesCollection.Last()),
+                    Arguments = argumentsValuesCollection.Take(argumentsValuesCollection.Length - 1).Select(l => double.Parse(l.Replace('.', ','))).ToList()
+                });
+            }
         }
 
         private static List<string> PrepareArgumentNames(IReadOnlyList<string> lines)
