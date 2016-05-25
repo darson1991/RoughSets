@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
+using BusinessLogic.Exceptions;
 
 namespace BusinessLogic.Helpers
 {
@@ -6,9 +8,16 @@ namespace BusinessLogic.Helpers
     {
         public static string GetFileContent(string url)
         {
-            using (var streamReader = new StreamReader(url))
+            try
             {
-                return streamReader.ReadToEnd();
+                using (var streamReader = new StreamReader(url))
+                {
+                    return streamReader.ReadToEnd();
+                }
+            }
+            catch (Exception exception)
+            {
+                throw new FileOperationsException(exception);
             }
         }
     }

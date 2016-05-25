@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using BusinessLogic;
+using BusinessLogic.Exceptions;
 using BusinessLogic.Helpers;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
@@ -9,7 +10,7 @@ using ViewModels.Providers;
 
 namespace ViewModels
 {
-    public class MainViewModel : ViewModelBase
+    public class PrepareDataViewModel : ViewModelBase
     {
         private readonly IOpenFileDialogProvider _openFileDialogProvider;
         private readonly IMessageBoxProvider _messageBoxProvider;
@@ -39,7 +40,7 @@ namespace ViewModels
 
         public RoughSetInformations RoughSetInformations { get; private set; }
 
-        public MainViewModel(IOpenFileDialogProvider openFileDialogProvider, IMessageBoxProvider messageBoxProvider)
+        public PrepareDataViewModel(IOpenFileDialogProvider openFileDialogProvider, IMessageBoxProvider messageBoxProvider)
         {
             _openFileDialogProvider = openFileDialogProvider;
             _messageBoxProvider = messageBoxProvider;
@@ -59,12 +60,12 @@ namespace ViewModels
             {
                 ReadContentAndDescriptionFiles();
                 PrepareRoughSetInformations();
+                PrepareDataObjects();
             }
-            catch (Exception)
+            catch (Exception exception)
             {
-                _messageBoxProvider.ShowMessage("The file which you chose have bad data or haven't description file.");
+                _messageBoxProvider.ShowMessage(exception.Message);
             }
-            PrepareDataObjects();
         }
 
         private void ReadContentAndDescriptionFiles()
@@ -85,30 +86,34 @@ namespace ViewModels
 
         private void PrepareDataObjects()
         {
+            DataObjects.Clear();
             var stringSeparators = new[] { "\r\n" };
             var lines = _roughSetsFileContent.Substring(0, _roughSetsFileContent.Length - 2).Split(stringSeparators, StringSplitOptions.None);
             _stringToNumberConverter.ConvertStringsToNumbers(lines);
+            FillDataObjectsList(lines);
+        }
 
-            foreach (var argumentsValuesCollection in lines.Select(line => line.Split(',')))
+        private void FillDataObjectsList(IEnumerable<string> lines)
+        {
+            try
             {
-                DataObjects.Add(new DataObject
+                foreach (var argumentsValuesCollection in lines.Select(line => line.Split(',')))
                 {
-                    Decision = double.Parse(argumentsValuesCollection.Last()),
-                    Arguments = argumentsValuesCollection.Take(argumentsValuesCollection.Length - 1).Select(l => double.Parse(l.Replace('.', ','))).ToList()
-                });
+                    DataObjects.Add(new DataObject
+                    {
+                        Decision = double.Parse(argumentsValuesCollection.Last()),
+                        Arguments = argumentsValuesCollection.Take(argumentsValuesCollection.Length - 1)
+                            .Select(l => double.Parse(l.Replace('.', ','))).ToList()
+                    });
+                }
+            }
+            catch (Exception exception)
+            {
+                throw new FillDataObjectsListException(exception);
             }
         }
 
         private static List<string> PrepareArgumentNames(IReadOnlyList<string> lines)
-        {
-            if(lines == null || lines.Count == 0)
-                return new List<string>();
-
-            var argumentNames = lines[0].Split(',').ToList();
-            return argumentNames;
-        }
-
-        private static List<string> PrepareDecisionClasses(IReadOnlyList<string> lines)
         {
             var decisionClasses = new List<string>();
 
@@ -117,6 +122,15 @@ namespace ViewModels
                 decisionClasses.Add(lines[i].Split(':')[0]);
             }
             return decisionClasses;
+        }
+
+        private static List<string> PrepareDecisionClasses(IReadOnlyList<string> lines)
+        {
+            if (lines == null || lines.Count == 0)
+                return new List<string>();
+
+            var argumentNames = lines[0].Split(',').ToList();
+            return argumentNames;
         }
 
         private void CreateRoughSetInformations(List<string> argumentNames, List<string> decisionClasses)

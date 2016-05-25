@@ -1,8 +1,8 @@
 ﻿namespace RoughSets
 {
-    public partial class MainWindow
+    public partial class PrepareDataWindow
     {
-        public MainWindow()
+        public PrepareDataWindow()
         {
             InitializeComponent();
         }

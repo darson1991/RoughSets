@@ -8,7 +8,7 @@ namespace RoughSets.MvvmUtils
 {
     public class ViewModelLocator
     {
-        public MainViewModel MainViewModel => ServiceLocator.Current.GetInstance<MainViewModel>();
+        public PrepareDataViewModel PrepareDataViewModel => ServiceLocator.Current.GetInstance<PrepareDataViewModel>();
 
         public ViewModelLocator()
         {
@@ -17,7 +17,7 @@ namespace RoughSets.MvvmUtils
             SimpleIoc.Default.Register(CreateOpenFIleDialogProvider);
             SimpleIoc.Default.Register(CreateMessageBoxProvider);
 
-            SimpleIoc.Default.Register<MainViewModel>(true);
+            SimpleIoc.Default.Register<PrepareDataViewModel>(true);
         }
 
         private static IOpenFileDialogProvider CreateOpenFIleDialogProvider()

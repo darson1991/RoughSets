@@ -1,4 +1,4 @@
-﻿<Window x:Class="RoughSets.MainWindow"
+﻿<Window x:Class="RoughSets.PrepareDataWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -6,8 +6,8 @@
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:command="http://www.galasoft.ch/mvvmlight"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525"
-        DataContext="{Binding MainViewModel, Source={StaticResource ViewModelLocator}}">
+        Title="PrepareDataWindow" Height="350" Width="525"
+        DataContext="{Binding PrepareDataViewModel, Source={StaticResource ViewModelLocator}}">
     <Grid Margin="4">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>

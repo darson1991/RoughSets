@@ -41,6 +41,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataObject.cs" />
+    <Compile Include="Exceptions\ConvertStringToNumberException.cs" />
+    <Compile Include="Exceptions\FileOperationsException.cs" />
+    <Compile Include="Exceptions\FillDataObjectsListException.cs" />
     <Compile Include="Helpers\StringToNumberConverter.cs" />
     <Compile Include="Helpers\FileOperations.cs" />
     <Compile Include="Helpers\StringValueToNumberMapper.cs" />

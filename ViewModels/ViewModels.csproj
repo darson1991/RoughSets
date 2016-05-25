@@ -60,7 +60,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MainViewModel.cs" />
+    <Compile Include="PrepareDataViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\IMessageBoxProvider.cs" />
     <Compile Include="Providers\IOpenFileDialogProvider.cs" />
