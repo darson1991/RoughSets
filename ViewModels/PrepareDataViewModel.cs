@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using BusinessLogic;
+using BusinessLogic.Clustering;
 using BusinessLogic.Exceptions;
 using BusinessLogic.Helpers;
-using BusinessLogic.KMeans;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using ViewModels.Providers;
@@ -37,7 +37,7 @@ namespace ViewModels
             }
         }
 
-        public List<DataObject> DataObjects { get; private set; } 
+        public List<DataObject> DataObjects { get; } 
 
         public RoughSetInformations RoughSetInformations { get; private set; }
 
@@ -62,7 +62,7 @@ namespace ViewModels
                 ReadContentAndDescriptionFiles();
                 PrepareRoughSetInformations();
                 PrepareDataObjects();
-                Lol.Clustering(RoughSetInformations, DataObjects);
+                ClusteringOperations.Clustering(RoughSetInformations, DataObjects);
             }
             catch (Exception exception)
             {
@@ -115,7 +115,7 @@ namespace ViewModels
             }
         }
 
-        private static List<string> PrepareDecisionClasses(IReadOnlyList<string> lines)
+        private static List<string> PrepareArgumentNames(IReadOnlyList<string> lines)
         {
             var decisionClasses = new List<string>();
 
@@ -126,7 +126,7 @@ namespace ViewModels
             return decisionClasses;
         }
 
-        private static List<string> PrepareArgumentNames(IReadOnlyList<string> lines)
+        private static List<string> PrepareDecisionClasses(IReadOnlyList<string> lines)
         {
             if (lines == null || lines.Count == 0)
                 return new List<string>();

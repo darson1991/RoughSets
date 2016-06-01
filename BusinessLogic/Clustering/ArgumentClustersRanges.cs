@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace BusinessLogic.KMeans
+namespace BusinessLogic.Clustering
 {
     public class ArgumentClustersRanges
     {
