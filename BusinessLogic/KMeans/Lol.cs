@@ -20,19 +20,66 @@ namespace BusinessLogic.KMeans
             if (dataObjects == null)
                 return;
 
+            PrepareArgumentsClustersRangeList(dataObjects, attributes, fastVector);
+        }
+
+        private static FastVector PrepareFastVector(List<Attribute> attributes)
+        {
+            var fastVector = new FastVector(attributes.Count);
+            foreach (var attribute in attributes)
+            {
+                fastVector.addElement(attribute);
+            }
+            return fastVector;
+        }
+
+        private static void PrepareArgumentsClustersRangeList(List<DataObject> dataObjects, List<Attribute> attributes, FastVector fastVector)
+        {
             var objectsCount = dataObjects.Count;
-            var numberOfClusters = (int)Math.Sqrt(objectsCount / 2);
+            var numberOfClusters = (int) Math.Sqrt(objectsCount/2);
 
             var argumentsClustersRangeList = new List<ArgumentClustersRanges>();
 
             for (var i = 0; i < attributes.Count; i++)
             {
                 var instances = PrepareClusterInstancesForArgument(dataObjects, fastVector, objectsCount, attributes, i);
-                var kMeans = ForArgument(numberOfClusters, instances);
+                var kMeans = PrepareKMeansForArgument(numberOfClusters, instances);
                 var clustersRangeList = PrepareClustersRangeListForArgument(numberOfClusters);
                 argumentsClustersRangeList.Add(new ArgumentClustersRanges(clustersRangeList));
                 UpdateClustersRangeListForArgument(instances, kMeans, attributes, i, argumentsClustersRangeList);
             }
+        }
+
+        private static Instances PrepareClusterInstancesForArgument(List<DataObject> dataObjects, FastVector fastVector, int objectsCount,
+            List<Attribute> attributes, int i)
+        {
+            var instances = new Instances("data", fastVector, objectsCount);
+            for (var j = 0; j < objectsCount; j++)
+            {
+                var instance = new Instance(fastVector.size());
+                instance.setValue(attributes[i], dataObjects[j].Arguments[i]);
+                instances.add(instance);
+            }
+            return instances;
+        }
+
+        private static SimpleKMeans PrepareKMeansForArgument(int numberOfClusters, Instances instances)
+        {
+            var kMeans = new SimpleKMeans();
+            kMeans.setNumClusters(numberOfClusters);
+            kMeans.buildClusterer(instances);
+            return kMeans;
+        }
+
+        private static List<ClusterRange> PrepareClustersRangeListForArgument(int numberOfClusters)
+        {
+            var clustersRangeList = new List<ClusterRange>();
+            for (var j = 0; j < numberOfClusters; j++)
+            {
+                var minMaxValue = new ClusterRange(double.MaxValue, double.MinValue);
+                clustersRangeList.Add(minMaxValue);
+            }
+            return clustersRangeList;
         }
 
         private static void UpdateClustersRangeListForArgument(Instances instances, SimpleKMeans kMeans, List<Attribute> attributes, int i,
@@ -49,48 +96,6 @@ namespace BusinessLogic.KMeans
                 if (value > argumentsClustersRangeList[i].ClusterRanges[n].To)
                     argumentsClustersRangeList[i].ClusterRanges[n].To = value;
             }
-        }
-
-        private static List<ClusterRange> PrepareClustersRangeListForArgument(int numberOfClusters)
-        {
-            var clustersRangeList = new List<ClusterRange>();
-            for (var j = 0; j < numberOfClusters; j++)
-            {
-                var minMaxValue = new ClusterRange(double.MaxValue, double.MinValue);
-                clustersRangeList.Add(minMaxValue);
-            }
-            return clustersRangeList;
-        }
-
-        private static SimpleKMeans ForArgument(int numberOfClusters, Instances instances)
-        {
-            var kMeans = new SimpleKMeans();
-            kMeans.setNumClusters(numberOfClusters);
-            kMeans.buildClusterer(instances);
-            return kMeans;
-        }
-
-        private static Instances PrepareClusterInstancesForArgument(List<DataObject> dataObjects, FastVector fastVector, int objectsCount,
-            List<Attribute> attributes, int i)
-        {
-            var instances = new Instances("data", fastVector, objectsCount);
-            for (var j = 0; j < objectsCount; j++)
-            {
-                var instance = new Instance(fastVector.size());
-                instance.setValue(attributes[i], dataObjects[j].Arguments[i]);
-                instances.add(instance);
-            }
-            return instances;
-        }
-
-        private static FastVector PrepareFastVector(List<Attribute> attributes)
-        {
-            var fastVector = new FastVector(attributes.Count);
-            foreach (var attribute in attributes)
-            {
-                fastVector.addElement(attribute);
-            }
-            return fastVector;
         }
     }
 }
