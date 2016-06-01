@@ -62,8 +62,7 @@ namespace ViewModels
                 ReadContentAndDescriptionFiles();
                 PrepareRoughSetInformations();
                 PrepareDataObjects();
-                var l = new Lol();
-                l.Clustering(RoughSetInformations, DataObjects);
+                Lol.Clustering(RoughSetInformations, DataObjects);
             }
             catch (Exception exception)
             {
@@ -116,7 +115,7 @@ namespace ViewModels
             }
         }
 
-        private static List<string> PrepareArgumentNames(IReadOnlyList<string> lines)
+        private static List<string> PrepareDecisionClasses(IReadOnlyList<string> lines)
         {
             var decisionClasses = new List<string>();
 
@@ -127,7 +126,7 @@ namespace ViewModels
             return decisionClasses;
         }
 
-        private static List<string> PrepareDecisionClasses(IReadOnlyList<string> lines)
+        private static List<string> PrepareArgumentNames(IReadOnlyList<string> lines)
         {
             if (lines == null || lines.Count == 0)
                 return new List<string>();
