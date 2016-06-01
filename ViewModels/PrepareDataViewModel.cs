@@ -4,6 +4,7 @@ using System.Linq;
 using BusinessLogic;
 using BusinessLogic.Exceptions;
 using BusinessLogic.Helpers;
+using BusinessLogic.KMeans;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using ViewModels.Providers;
@@ -61,6 +62,7 @@ namespace ViewModels
                 ReadContentAndDescriptionFiles();
                 PrepareRoughSetInformations();
                 PrepareDataObjects();
+                Lol.Clustering(RoughSetInformations, DataObjects);
             }
             catch (Exception exception)
             {

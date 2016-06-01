@@ -56,6 +56,7 @@
     <Compile Include="Helpers\FileOperations.cs" />
     <Compile Include="Helpers\StringValueToNumberMapper.cs" />
     <Compile Include="KMeans\Lol.cs" />
+    <Compile Include="KMeans\Pair.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RoughSetInformations.cs" />
   </ItemGroup>
