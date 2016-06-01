@@ -11,13 +11,8 @@ namespace BusinessLogic.KMeans
     [SuppressMessage("ReSharper", "PossibleLossOfFraction")]
     public class Lol
     {
-        public static void Clustering(RoughSetInformations roughSetInformations, List<DataObject> dataObjects)
+        public void Clustering(RoughSetInformations roughSetInformations, List<DataObject> dataObjects)
         {
-            List<Attribute> a = new List<Attribute>();
-            foreach (var argumentName in roughSetInformations.ArgumentNames)
-            {
-                a.Add(new Attribute(argumentName));
-            }
             var attributes = roughSetInformations.ArgumentNames.Select(argumentName => new Attribute(argumentName)).ToList();
 
             var fastVector = PrepareFastVector(attributes);

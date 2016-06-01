@@ -62,7 +62,8 @@ namespace ViewModels
                 ReadContentAndDescriptionFiles();
                 PrepareRoughSetInformations();
                 PrepareDataObjects();
-                Lol.Clustering(RoughSetInformations, DataObjects);
+                var l = new Lol();
+                l.Clustering(RoughSetInformations, DataObjects);
             }
             catch (Exception exception)
             {
