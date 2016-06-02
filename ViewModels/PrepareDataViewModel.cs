@@ -26,6 +26,7 @@ namespace ViewModels
         private string _attributesDescription;
         private bool _isBusy;
 
+        public Action action;
         public RelayCommand BrowseFileCommand => _browseFileCommand ?? (_browseFileCommand = new RelayCommand(BrowseFile));
         public RelayCommand FillDataCommand => _fillDataCommand ?? (_fillDataCommand = new RelayCommand(FillData));
         public string DescritpionFileUrl => ContentFileUrl.Insert(ContentFileUrl.Length - 4, "_descr");
@@ -87,6 +88,8 @@ namespace ViewModels
                     ClusteredDataObjects = ClusteredDataObjects
                 });
                 IsBusy = false;
+                if (action != null)
+                    action();
             }
             catch (Exception exception)
             {

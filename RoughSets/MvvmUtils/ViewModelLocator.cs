@@ -16,7 +16,6 @@ namespace RoughSets.MvvmUtils
         {
             ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
 
-            //SimpleIoc.Default.Register(CreateNavigationService);
             SimpleIoc.Default.Register(CreateOpenFIleDialogProvider);
             SimpleIoc.Default.Register(CreateMessageBoxProvider);
 
@@ -24,12 +23,6 @@ namespace RoughSets.MvvmUtils
             SimpleIoc.Default.Register<AlgorithmChoiceViewModel>(true);
             SimpleIoc.Default.Register<SearchingRoughSetViewModel>(true);
         }
-
-        //private INavigationService CreateNavigationService()
-        //{
-        //    var navigationService = new GalaSoft.MvvmLight.Views.NavigationService();
-        //    return navigationService;
-        //}
 
         private static IOpenFileDialogProvider CreateOpenFIleDialogProvider()
         {
