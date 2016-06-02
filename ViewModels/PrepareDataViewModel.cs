@@ -22,6 +22,7 @@ namespace ViewModels
         private string _contentFileUrl;
         private string _roughSetsFileContent;
         private string _attributesDescription;
+        private bool isBusy;
 
         public RelayCommand BrowseFileCommand => _browseFileCommand ?? (_browseFileCommand = new RelayCommand(BrowseFile));
         public RelayCommand FillDataCommand => _fillDataCommand ?? (_fillDataCommand = new RelayCommand(FillData));
@@ -43,6 +44,16 @@ namespace ViewModels
 
         public RoughSetInformations RoughSetInformations { get; private set; }
 
+        public bool IsBusy
+        {
+            get { return isBusy; }
+            set
+            {
+                isBusy = value; 
+                RaisePropertyChanged();
+            }
+        }
+
         public PrepareDataViewModel(IOpenFileDialogProvider openFileDialogProvider, IMessageBoxProvider messageBoxProvider)
         {
             _openFileDialogProvider = openFileDialogProvider;
@@ -61,15 +72,19 @@ namespace ViewModels
         {
             try
             {
+                IsBusy = true;
                 ReadContentAndDescriptionFiles();
                 PrepareRoughSetInformations();
                 PrepareDataObjects();
                 ClusteredDataObjects = ClusteringOperations.Clustering(RoughSetInformations, DataObjects);
+                IsBusy = false;
             }
             catch (Exception exception)
             {
+                IsBusy = false;
                 _messageBoxProvider.ShowMessage(exception.Message);
             }
+
         }
 
         private void ReadContentAndDescriptionFiles()

@@ -8,6 +8,18 @@
         mc:Ignorable="d"
         Title="PrepareDataWindow" Height="350" Width="525"
         DataContext="{Binding PrepareDataViewModel, Source={StaticResource ViewModelLocator}}">
+    <Window.Style>
+        <Style TargetType="Window">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding IsBusy}" Value="true">
+                    <Setter Property="Cursor" Value="Wait"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding IsBusy}" Value="false">
+                    <Setter Property="Cursor" Value="Arrow"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Style>
     <Grid Margin="4">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
