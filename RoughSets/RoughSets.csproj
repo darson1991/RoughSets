@@ -75,10 +75,20 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="SearchingRoughSetWindow.xaml.cs">
+      <DependentUpon>SearchingRoughSetWindow.xaml</DependentUpon>
+    </Compile>
+    <Page Include="AlgorithmChoiceWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="PrepareDataWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Compile Include="AlgorithmChoiceWindow.xaml.cs">
+      <DependentUpon>AlgorithmChoiceWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -87,6 +97,10 @@
       <DependentUpon>PrepareDataWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="SearchingRoughSetWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MvvmUtils\Providers\MessageBoxProvider.cs" />

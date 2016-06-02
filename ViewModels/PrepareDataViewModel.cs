@@ -7,6 +7,8 @@ using BusinessLogic.Exceptions;
 using BusinessLogic.Helpers;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Messaging;
+using ViewModels.Messages;
 using ViewModels.Providers;
 
 namespace ViewModels
@@ -22,7 +24,7 @@ namespace ViewModels
         private string _contentFileUrl;
         private string _roughSetsFileContent;
         private string _attributesDescription;
-        private bool isBusy;
+        private bool _isBusy;
 
         public RelayCommand BrowseFileCommand => _browseFileCommand ?? (_browseFileCommand = new RelayCommand(BrowseFile));
         public RelayCommand FillDataCommand => _fillDataCommand ?? (_fillDataCommand = new RelayCommand(FillData));
@@ -49,10 +51,10 @@ namespace ViewModels
 
         public bool IsBusy
         {
-            get { return isBusy; }
+            get { return _isBusy; }
             set
             {
-                isBusy = value; 
+                _isBusy = value; 
                 RaisePropertyChanged(() => IsBusy);
             }
         }
@@ -80,6 +82,10 @@ namespace ViewModels
                 PrepareRoughSetInformations();
                 PrepareDataObjects();
                 ClusteredDataObjects = ClusteringOperations.Clustering(RoughSetInformations, DataObjects);
+                Messenger.Default.Send(new ClusteredDataObjectsMessage
+                {
+                    ClusteredDataObjects = ClusteredDataObjects
+                });
                 IsBusy = false;
             }
             catch (Exception exception)
