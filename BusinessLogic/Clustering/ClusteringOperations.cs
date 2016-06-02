@@ -14,19 +14,22 @@ namespace BusinessLogic.Clustering
         private static List<DataObject> _dataObjects; 
         private static List<Attribute> _attributes;
         private static FastVector _fastVector;
+        private static List<ArgumentClustersRanges> _argumentsClustersRangeList;
 
-        public static void Clustering(RoughSetInformations roughSetInformations, List<DataObject> dataObjects)
+        public static List<ClusteredDataObject> Clustering(RoughSetInformations roughSetInformations, List<DataObject> dataObjects)
         {
             _dataObjects = dataObjects;
             _attributes = roughSetInformations.ArgumentNames.Select(argumentName => new Attribute(argumentName)).ToList();
             _fastVector = PrepareFastVector();
 
             if (_dataObjects == null)
-                return;
+                return null;
 
-            var argumentsClustersRangeList = PrepareArgumentsClustersRangeList();
+            _argumentsClustersRangeList = PrepareArgumentsClustersRangeList();
 
-            SortArgumentsClustersRangeListItems(argumentsClustersRangeList);
+            SortArgumentsClustersRangeListItems();
+
+            return PrepareClusteredDataObjects();
         }
 
         private static FastVector PrepareFastVector()
@@ -57,12 +60,41 @@ namespace BusinessLogic.Clustering
             return argumentsClustersRangeList;
         }
 
-        private static void SortArgumentsClustersRangeListItems(List<ArgumentClustersRanges> argumentsClustersRangeList)
+        private static void SortArgumentsClustersRangeListItems()
         {
-            foreach (var argumentClusterRanges in argumentsClustersRangeList)
+            foreach (var argumentClusterRanges in _argumentsClustersRangeList)
             {
                 argumentClusterRanges.ClusterRanges.Sort((x, y) => x.From.CompareTo(y.From));
             }
+        }
+
+        private static List<ClusteredDataObject> PrepareClusteredDataObjects()
+        {
+            var clusteredDataObjects = new List<ClusteredDataObject>();
+
+            foreach (var dataObject in _dataObjects)
+            {
+                var clusteredDataObject = new ClusteredDataObject
+                {
+                    Decision = dataObject.Decision
+                };
+                for (var i = 0; i < dataObject.Arguments.Count; i++)
+                {
+                    var argumentValue = dataObject.Arguments[i];
+                    foreach (var clusterRange in _argumentsClustersRangeList[i].ClusterRanges)
+                    {
+                        if (argumentValue < clusterRange.From || argumentValue > clusterRange.To)
+                            continue;
+
+                        var indexOfClusterRange = _argumentsClustersRangeList[i].ClusterRanges.IndexOf(clusterRange);
+                        clusteredDataObject.Arguments.Add(indexOfClusterRange);
+                        break;
+                    }
+                }
+                clusteredDataObjects.Add(clusteredDataObject);
+            }
+
+            return clusteredDataObjects;
         }
 
         private static Instances PrepareClusterInstancesForArgument(int attributeIndex)

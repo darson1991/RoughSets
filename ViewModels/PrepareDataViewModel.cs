@@ -39,6 +39,8 @@ namespace ViewModels
 
         public List<DataObject> DataObjects { get; } 
 
+        public List<ClusteredDataObject> ClusteredDataObjects { get; private set; }
+
         public RoughSetInformations RoughSetInformations { get; private set; }
 
         public PrepareDataViewModel(IOpenFileDialogProvider openFileDialogProvider, IMessageBoxProvider messageBoxProvider)
@@ -62,7 +64,7 @@ namespace ViewModels
                 ReadContentAndDescriptionFiles();
                 PrepareRoughSetInformations();
                 PrepareDataObjects();
-                ClusteringOperations.Clustering(RoughSetInformations, DataObjects);
+                ClusteredDataObjects = ClusteringOperations.Clustering(RoughSetInformations, DataObjects);
             }
             catch (Exception exception)
             {

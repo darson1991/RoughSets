@@ -54,6 +54,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ClusteredDataObject.cs" />
     <Compile Include="DataObject.cs" />
     <Compile Include="Exceptions\ConvertStringToNumberException.cs" />
     <Compile Include="Exceptions\FileOperationsException.cs" />
