@@ -28,21 +28,24 @@ namespace ViewModels
         public RelayCommand FillDataCommand => _fillDataCommand ?? (_fillDataCommand = new RelayCommand(FillData));
         public string DescritpionFileUrl => ContentFileUrl.Insert(ContentFileUrl.Length - 4, "_descr");
 
+        public List<DataObject> DataObjects { get; }
+
+        public List<ClusteredDataObject> ClusteredDataObjects { get; private set; }
+
+        public RoughSetInformations RoughSetInformations { get; private set; }
+
+        public bool CanFillData => !string.IsNullOrEmpty(ContentFileUrl);
+
         public string ContentFileUrl
         {
             get { return _contentFileUrl; }
             set
             {
                 _contentFileUrl = value;
-                RaisePropertyChanged();
+                RaisePropertyChanged(() => CanFillData);
+                RaisePropertyChanged(() => ContentFileUrl);
             }
         }
-
-        public List<DataObject> DataObjects { get; } 
-
-        public List<ClusteredDataObject> ClusteredDataObjects { get; private set; }
-
-        public RoughSetInformations RoughSetInformations { get; private set; }
 
         public bool IsBusy
         {
@@ -50,7 +53,7 @@ namespace ViewModels
             set
             {
                 isBusy = value; 
-                RaisePropertyChanged();
+                RaisePropertyChanged(() => IsBusy);
             }
         }
 
