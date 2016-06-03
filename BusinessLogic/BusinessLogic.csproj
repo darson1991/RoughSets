@@ -55,6 +55,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Algorithms\CheckAllSolutions\CheckAllSolutionsAlgorithm.cs" />
+    <Compile Include="Algorithms\Genetic\GeneticAlgorithm.cs" />
     <Compile Include="Algorithms\IAlgorithm.cs" />
     <Compile Include="Algorithms\KindOfAlgorithm.cs" />
     <Compile Include="ClusteredDataObject.cs" />

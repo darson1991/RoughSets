@@ -9,6 +9,7 @@ using Attribute = weka.core.Attribute;
 namespace BusinessLogic.Clustering
 {
     [SuppressMessage("ReSharper", "PossibleLossOfFraction")]
+    [SuppressMessage("ReSharper", "LoopCanBePartlyConvertedToQuery")]
     public class ClusteringOperations
     {
         private static List<DataObject> _dataObjects; 
@@ -29,7 +30,7 @@ namespace BusinessLogic.Clustering
 
             SortArgumentsClustersRangeListItems();
 
-            return PrepareClusteredDataObjects();
+            return PrepareClusteredDataObjectsCollection();
         }
 
         private static FastVector PrepareFastVector()
@@ -68,33 +69,48 @@ namespace BusinessLogic.Clustering
             }
         }
 
-        private static List<ClusteredDataObject> PrepareClusteredDataObjects()
+        private static List<ClusteredDataObject> PrepareClusteredDataObjectsCollection()
         {
             var clusteredDataObjects = new List<ClusteredDataObject>();
 
             foreach (var dataObject in _dataObjects)
             {
-                var clusteredDataObject = new ClusteredDataObject
-                {
-                    Decision = dataObject.Decision
-                };
-                for (var i = 0; i < dataObject.Arguments.Count; i++)
-                {
-                    var argumentValue = dataObject.Arguments[i];
-                    foreach (var clusterRange in _argumentsClustersRangeList[i].ClusterRanges)
-                    {
-                        if (argumentValue < clusterRange.From || argumentValue > clusterRange.To)
-                            continue;
-
-                        var indexOfClusterRange = _argumentsClustersRangeList[i].ClusterRanges.IndexOf(clusterRange);
-                        clusteredDataObject.Arguments.Add(indexOfClusterRange);
-                        break;
-                    }
-                }
-                clusteredDataObjects.Add(clusteredDataObject);
+                PrepareClusteredDataObject(dataObject, clusteredDataObjects);
             }
 
             return clusteredDataObjects;
+        }
+
+        private static void PrepareClusteredDataObject(DataObject dataObject, ICollection<ClusteredDataObject> clusteredDataObjects)
+        {
+            var clusteredDataObject = new ClusteredDataObject
+            {
+                Decision = dataObject.Decision
+            };
+            PrepareClusteredDataObjectArguments(dataObject, clusteredDataObject);
+            clusteredDataObjects.Add(clusteredDataObject);
+        }
+
+        private static void PrepareClusteredDataObjectArguments(DataObject dataObject, ClusteredDataObject clusteredDataObject)
+        {
+            for (var i = 0; i < dataObject.Arguments.Count; i++)
+            {
+                SetNewArgumentValue(dataObject, clusteredDataObject, i);
+            }
+        }
+
+        private static void SetNewArgumentValue(DataObject dataObject, ClusteredDataObject clusteredDataObject, int argumentIndex)
+        {
+            var argumentValue = dataObject.Arguments[argumentIndex];
+            foreach (var clusterRange in _argumentsClustersRangeList[argumentIndex].ClusterRanges)
+            {
+                if (argumentValue < clusterRange.From || argumentValue > clusterRange.To)
+                    continue;
+
+                var indexOfClusterRange = _argumentsClustersRangeList[argumentIndex].ClusterRanges.IndexOf(clusterRange);
+                clusteredDataObject.Arguments.Add(indexOfClusterRange);
+                break;
+            }
         }
 
         private static Instances PrepareClusterInstancesForArgument(int attributeIndex)

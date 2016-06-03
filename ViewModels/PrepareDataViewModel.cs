@@ -94,6 +94,7 @@ namespace ViewModels
             {
                 IsBusy = false;
                 _messageBoxProvider.ShowMessage(exception.Message);
+                throw;
             }
 
         }
