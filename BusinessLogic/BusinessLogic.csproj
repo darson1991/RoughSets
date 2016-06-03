@@ -54,6 +54,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Algorithms\CheckAllSolutions\CheckAllSolutionsAlgorithm.cs" />
+    <Compile Include="Algorithms\IAlgorithm.cs" />
     <Compile Include="Algorithms\KindOfAlgorithm.cs" />
     <Compile Include="ClusteredDataObject.cs" />
     <Compile Include="DataObject.cs" />
@@ -61,6 +63,7 @@
     <Compile Include="Exceptions\FileOperationsException.cs" />
     <Compile Include="Exceptions\FillDataObjectsListException.cs" />
     <Compile Include="Helpers\EnumHelper.cs" />
+    <Compile Include="Helpers\BinaryStringHelper.cs" />
     <Compile Include="Helpers\StringToNumberConverter.cs" />
     <Compile Include="Helpers\FileOperations.cs" />
     <Compile Include="Helpers\StringValueToNumberMapper.cs" />
@@ -70,6 +73,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RoughSetInformations.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
