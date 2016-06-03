@@ -14,8 +14,8 @@ namespace BusinessLogic.Helpers
                 throw new ArgumentException("TEnum must be an Enumeration type");
             }
 
-            return from e in Enum.GetValues(typeof(TEnum)).Cast<Enum>()
-                   select new KeyValuePair<string, string>(e.ToString(), DescriptionAttr(e));
+            return from enumValues in Enum.GetValues(typeof(TEnum)).Cast<Enum>()
+                   select new KeyValuePair<string, string>(enumValues.ToString(), DescriptionAttr(enumValues));
         }
 
         public static string DescriptionAttr<TEnum>(this TEnum source)
