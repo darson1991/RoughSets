@@ -54,6 +54,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="RoughSetsHelperObjects\AbstractClass.cs" />
     <Compile Include="Algorithms\CheckAllSolutions\CheckAllSolutionsAlgorithm.cs" />
     <Compile Include="Algorithms\Genetic\GeneticAlgorithm.cs" />
     <Compile Include="Algorithms\IAlgorithm.cs" />
@@ -73,6 +74,7 @@
     <Compile Include="Clustering\ClusterRange.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RoughSetInformations.cs" />
+    <Compile Include="RoughSetsHelperObjects\Reduct.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
