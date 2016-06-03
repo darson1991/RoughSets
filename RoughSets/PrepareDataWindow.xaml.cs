@@ -15,7 +15,7 @@ namespace RoughSets
         {
             var prepareDataViewModel = DataContext as PrepareDataViewModel;
             if (prepareDataViewModel != null)
-                prepareDataViewModel.action += () => NavigationService?.Navigate(new Uri("AlgorithmChoiceWindow.xaml", UriKind.RelativeOrAbsolute));
+                prepareDataViewModel.GoToAlgorithmChoicePageAction += () => NavigationService?.Navigate(new Uri("AlgorithmChoiceWindow.xaml", UriKind.RelativeOrAbsolute));
         }
     }
 }
