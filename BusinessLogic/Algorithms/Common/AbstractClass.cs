@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace BusinessLogic.RoughSetsHelperObjects
+namespace BusinessLogic.Algorithms.Common
 {
     public class AbstractClass
     {
