@@ -1,10 +1,10 @@
 ﻿namespace BusinessLogic.Algorithms.Genetic
 {
-    public class GeneticAlgorithm: IAlgorithm
+    public class GeneticAlgorithm: BaseAlgorithm
     {
-        public void Calculate()
+        public override void Calculate()
         {
-            
+            throw new System.NotImplementedException();
         }
     }
 }

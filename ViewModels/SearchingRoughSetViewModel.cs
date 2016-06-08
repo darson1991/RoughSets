@@ -10,7 +10,7 @@ namespace ViewModels
 {
     public class SearchingRoughSetViewModel
     {
-        private IAlgorithm _algorithm;
+        private BaseAlgorithm _algorithm;
 
         public List<ClusteredDataObject> ClusteredDataObjects { get; private set; }
         public KindOfAlgorithm SelectedAlgorithm { get; private set; }
@@ -30,6 +30,8 @@ namespace ViewModels
         {
             SelectedAlgorithm = message.SelectedAlgorithm;
             InitializeAlgorithm();
+
+            _algorithm.Calculate();
         }
 
         private void InitializeAlgorithm()
@@ -37,7 +39,15 @@ namespace ViewModels
             switch (SelectedAlgorithm)
             {
                 case KindOfAlgorithm.CheckAllSolution:
-                    _algorithm = new CheckAllSolutionsAlgorithm();
+                    try
+                    {
+                        _algorithm = new CheckAllSolutionsAlgorithm(ClusteredDataObjects[0].Arguments.Count,
+                            ClusteredDataObjects);
+                    }
+                    catch (Exception exception)
+                    {
+                        //TODO: messageBox
+                    }
                     break;
                 case KindOfAlgorithm.Genetic:
                     break;
