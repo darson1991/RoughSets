@@ -73,13 +73,38 @@ namespace BusinessLogic.Algorithms.Common
             if (Subset.Count == 0)
                 return;
 
-            foreach (var reductDataObject in ReductDataObjects)
+            for (var i = 0; i < ReductDataObjects.Count; i++)
             {
+                var reductDataObject = ReductDataObjects[i];
                 var arguments = Subset.Select(s => reductDataObject.Arguments[s]).ToList();
 
                 var isNewAbstractClass = true;
 
+                foreach (var abstractClass in AbstractClasses)
+                {
+                    if (!abstractClass.ArgumentsValues.SequenceEqual(arguments))
+                        continue;
 
+                    if (abstractClass.Decision != reductDataObject.Decision)
+                        abstractClass.IsClear = false;
+                    else
+                    {
+                        isNewAbstractClass = false;
+                        abstractClass.ObjectsIndexes.Add(i);
+                    }
+                }
+
+                if (!isNewAbstractClass)
+                    continue;
+                
+                var newAbstractClass = new AbstractClass
+                {
+                    ArgumentsValues = arguments,
+                    Decision = reductDataObject.Decision
+                };
+                newAbstractClass.ObjectsIndexes.Add(i);
+
+                AbstractClasses.Add(newAbstractClass);
             }
         }
 
