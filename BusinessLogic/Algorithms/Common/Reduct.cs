@@ -37,9 +37,9 @@ namespace BusinessLogic.Algorithms.Common
         {
             Subset = new List<int>();
 
-            for (var i = 0; i < Subset.Count; i++)
+            for (var i = 0; i < Individual.Length; i++)
             {
-                if (Subset[i] == '1')
+                if (Individual[i] == '1')
                     Subset.Add(i);
             }
         }
@@ -82,50 +82,44 @@ namespace BusinessLogic.Algorithms.Common
             for (var i = 0; i < ReductDataObjects.Count; i++)
             {
                 var reductDataObject = ReductDataObjects[i];
-                var arguments = Subset.Select(s => reductDataObject.Arguments[s]).ToList();
+                var arguments = reductDataObject.Arguments;
 
                 bool isNewAbstractClass;
-                bool isClearAbstractClass;
-                UpdateExistingAbstractClassesWithTheSameArguments(arguments, reductDataObject, i, out isNewAbstractClass, out isClearAbstractClass);
+                UpdateExistingAbstractClassesWithTheSameArguments(arguments, reductDataObject, i, out isNewAbstractClass);
 
                 if (!isNewAbstractClass)
                     continue;
                 
-                var newAbstractClass = CreateNewAbstractClass(arguments, reductDataObject, i, isClearAbstractClass);
+                var newAbstractClass = CreateNewAbstractClass(arguments, reductDataObject, i);
 
                 AbstractClasses.Add(newAbstractClass);
             }
         }
 
         private void UpdateExistingAbstractClassesWithTheSameArguments(List<int> arguments, ClusteredDataObject reductDataObject,
-            int indexOfReductDataObject, out bool isNewAbstractClass, out bool isClearAbstractClass)
+            int indexOfReductDataObject, out bool isNewAbstractClass)
         {
-            isClearAbstractClass = true;
             isNewAbstractClass = true;
-            foreach (var abstractClass in AbstractClasses)
+            foreach (var abstractClass in AbstractClasses.Where(abstractClass => abstractClass.ArgumentsValues.SequenceEqual(arguments)))
             {
-                if (!abstractClass.ArgumentsValues.SequenceEqual(arguments))
-                    continue;
-
-                isClearAbstractClass = false;
+                isNewAbstractClass = false;
+                abstractClass.ObjectsIndexes.Add(indexOfReductDataObject);
                 if (abstractClass.Decision != reductDataObject.Decision)
-                    abstractClass.IsClear = false;
-                else
                 {
-                    isNewAbstractClass = false;
-                    abstractClass.ObjectsIndexes.Add(indexOfReductDataObject);
+                    abstractClass.IsClear = false;
+                    abstractClass.Decision = null;
                 }
             }
         }
 
         private static AbstractClass CreateNewAbstractClass(List<int> arguments, ClusteredDataObject reductDataObject, 
-            int indexOfReductDataObject, bool isClearAbstractClass)
+            int indexOfReductDataObject)
         {
             var newAbstractClass = new AbstractClass
             {
                 ArgumentsValues = arguments,
                 Decision = reductDataObject.Decision,
-                IsClear = isClearAbstractClass
+                IsClear = true
             };
             newAbstractClass.ObjectsIndexes.Add(indexOfReductDataObject);
             return newAbstractClass;
