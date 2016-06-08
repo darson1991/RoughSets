@@ -133,9 +133,17 @@ namespace BusinessLogic.Algorithms.Common
 
         private void CalculateApproximation()
         {
-            Approximation = 0;
+            var lowerApproximation = 0;
+            var upperApproximation = 0;
 
+            foreach (var abstractClass in AbstractClasses)
+            {
+                upperApproximation += abstractClass.ObjectsIndexes.Count;
+                if (abstractClass.IsClear)
+                    lowerApproximation += abstractClass.ObjectsIndexes.Count;
+            }
 
+            Approximation = (double)lowerApproximation/upperApproximation;
         }
     }
 }
