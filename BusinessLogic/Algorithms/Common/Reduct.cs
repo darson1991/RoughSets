@@ -52,19 +52,25 @@ namespace BusinessLogic.Algorithms.Common
 
             foreach (var clusteredDataObject in clusteredDataObjects)
             {
-                var reductDataObject = new ClusteredDataObject
-                {
-                    Decision = clusteredDataObject.Decision
-                };
-
-                for (var i = 0; i < clusteredDataObject.Arguments.Count; i++)
-                {
-                    if (Subset.Contains(i))
-                        reductDataObject.Arguments.Add(clusteredDataObject.Arguments[i]);
-                }
+                var reductDataObject = CreateReductDataObject(clusteredDataObject);
 
                 ReductDataObjects.Add(reductDataObject);
             }
+        }
+
+        private ClusteredDataObject CreateReductDataObject(ClusteredDataObject clusteredDataObject)
+        {
+            var reductDataObject = new ClusteredDataObject
+            {
+                Decision = clusteredDataObject.Decision
+            };
+
+            for (var i = 0; i < clusteredDataObject.Arguments.Count; i++)
+            {
+                if (Subset.Contains(i))
+                    reductDataObject.Arguments.Add(clusteredDataObject.Arguments[i]);
+            }
+            return reductDataObject;
         }
 
         private void GenerateAbstractClasses()
@@ -78,39 +84,58 @@ namespace BusinessLogic.Algorithms.Common
                 var reductDataObject = ReductDataObjects[i];
                 var arguments = Subset.Select(s => reductDataObject.Arguments[s]).ToList();
 
-                var isNewAbstractClass = true;
-
-                foreach (var abstractClass in AbstractClasses)
-                {
-                    if (!abstractClass.ArgumentsValues.SequenceEqual(arguments))
-                        continue;
-
-                    if (abstractClass.Decision != reductDataObject.Decision)
-                        abstractClass.IsClear = false;
-                    else
-                    {
-                        isNewAbstractClass = false;
-                        abstractClass.ObjectsIndexes.Add(i);
-                    }
-                }
+                bool isNewAbstractClass;
+                bool isClearAbstractClass;
+                UpdateExistingAbstractClassesWithTheSameArguments(arguments, reductDataObject, i, out isNewAbstractClass, out isClearAbstractClass);
 
                 if (!isNewAbstractClass)
                     continue;
                 
-                var newAbstractClass = new AbstractClass
-                {
-                    ArgumentsValues = arguments,
-                    Decision = reductDataObject.Decision
-                };
-                newAbstractClass.ObjectsIndexes.Add(i);
+                var newAbstractClass = CreateNewAbstractClass(arguments, reductDataObject, i, isClearAbstractClass);
 
                 AbstractClasses.Add(newAbstractClass);
             }
         }
 
+        private void UpdateExistingAbstractClassesWithTheSameArguments(List<int> arguments, ClusteredDataObject reductDataObject,
+            int indexOfReductDataObject, out bool isNewAbstractClass, out bool isClearAbstractClass)
+        {
+            isClearAbstractClass = true;
+            isNewAbstractClass = true;
+            foreach (var abstractClass in AbstractClasses)
+            {
+                if (!abstractClass.ArgumentsValues.SequenceEqual(arguments))
+                    continue;
+
+                isClearAbstractClass = false;
+                if (abstractClass.Decision != reductDataObject.Decision)
+                    abstractClass.IsClear = false;
+                else
+                {
+                    isNewAbstractClass = false;
+                    abstractClass.ObjectsIndexes.Add(indexOfReductDataObject);
+                }
+            }
+        }
+
+        private static AbstractClass CreateNewAbstractClass(List<int> arguments, ClusteredDataObject reductDataObject, 
+            int indexOfReductDataObject, bool isClearAbstractClass)
+        {
+            var newAbstractClass = new AbstractClass
+            {
+                ArgumentsValues = arguments,
+                Decision = reductDataObject.Decision,
+                IsClear = isClearAbstractClass
+            };
+            newAbstractClass.ObjectsIndexes.Add(indexOfReductDataObject);
+            return newAbstractClass;
+        }
+
         private void CalculateApproximation()
         {
-            throw new System.NotImplementedException();
+            Approximation = 0;
+
+
         }
     }
 }
