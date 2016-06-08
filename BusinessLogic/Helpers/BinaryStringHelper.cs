@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace BusinessLogic.Helpers
 {
@@ -12,6 +13,13 @@ namespace BusinessLogic.Helpers
         public static int ConvertBinaryStringToInt(string binaryString)
         {
             return Convert.ToInt32(binaryString, 2);
+        }
+
+        public static string GenerateRandomIndividual(int length)
+        {
+            const string chars = "01";
+            var random = new Random();
+            return new string(Enumerable.Repeat(chars, length).Select(s => s[random.Next(s.Length)]).ToArray());
         }
     }
 }
