@@ -7,14 +7,14 @@ namespace BusinessLogic.Algorithms.Common
         public string Chromosome { get; private set; }
         public List<int> Subset { get; private set; } 
         public List<AbstractClass> AbstractClasses { get; private set; }
-        public List<DataObject> DataObjects { get; private set; }
+        public List<ClusteredDataObject> ReductDataObjects { get; private set; }
         public double Approximation { get; private set; }
 
-        public Reduct(string chromosome)
+        public Reduct(string chromosome, List<ClusteredDataObject> clusteredDataObjects)
         {
             Chromosome = chromosome;
             GenerateSubset();
-            GenerateDataObjectsForReduct();
+            GenerateDataObjectsForReduct(clusteredDataObjects);
             GenerateAbstractClasses();
         }
 
@@ -42,13 +42,27 @@ namespace BusinessLogic.Algorithms.Common
             }
         }
 
-        private void GenerateDataObjectsForReduct()
+        private void GenerateDataObjectsForReduct(List<ClusteredDataObject> clusteredDataObjects)
         {
-            DataObjects = new List<DataObject>();
+            ReductDataObjects = new List<ClusteredDataObject>();
             if (Subset.Count == 0)
                 return;
 
-            //TODO: from clustered objects generate new data objects
+            foreach (var clusteredDataObject in clusteredDataObjects)
+            {
+                var reductDataObject = new ClusteredDataObject
+                {
+                    Decision = clusteredDataObject.Decision
+                };
+
+                for (var i = 0; i < clusteredDataObject.Arguments.Count; i++)
+                {
+                    if (Subset.Contains(i))
+                        reductDataObject.Arguments.Add(clusteredDataObject.Arguments[i]);
+                }
+
+                ReductDataObjects.Add(reductDataObject);
+            }
         }
 
         private void GenerateAbstractClasses()
@@ -56,7 +70,6 @@ namespace BusinessLogic.Algorithms.Common
             AbstractClasses = new List<AbstractClass>();
             if (Subset.Count == 0)
                 return;
-
 
         }
     }
