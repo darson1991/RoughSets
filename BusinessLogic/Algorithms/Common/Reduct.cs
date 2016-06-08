@@ -5,15 +5,15 @@ namespace BusinessLogic.Algorithms.Common
 {
     public class Reduct
     {
-        public string Chromosome { get; private set; }
+        public string Individual { get; private set; }
         public List<int> Subset { get; private set; } 
         public List<AbstractClass> AbstractClasses { get; private set; }
         public List<ClusteredDataObject> ReductDataObjects { get; private set; }
         public double Approximation { get; private set; }
 
-        public Reduct(string chromosome, List<ClusteredDataObject> clusteredDataObjects)
+        public Reduct(string individual, List<ClusteredDataObject> clusteredDataObjects)
         {
-            Chromosome = chromosome;
+            Individual = individual;
             GenerateSubset();
             GenerateDataObjectsForReduct(clusteredDataObjects);
             GenerateAbstractClasses();
@@ -23,14 +23,14 @@ namespace BusinessLogic.Algorithms.Common
 
         public char GetChromosomeCharacter(int index)
         {
-            return Chromosome[index];
+            return Individual[index];
         }
 
         public void ChangeChromosomeCharacter(int index, char character)
         {
-            var charChromosomeArray = Chromosome.ToCharArray();
+            var charChromosomeArray = Individual.ToCharArray();
             charChromosomeArray[index] = character;
-            Chromosome = new string(charChromosomeArray);
+            Individual = new string(charChromosomeArray);
         }
 
         private void GenerateSubset()
