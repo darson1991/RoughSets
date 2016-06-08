@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace BusinessLogic.Algorithms.Common
 {
@@ -16,6 +17,7 @@ namespace BusinessLogic.Algorithms.Common
             GenerateSubset();
             GenerateDataObjectsForReduct(clusteredDataObjects);
             GenerateAbstractClasses();
+            CalculateApproximation();
         }
 
 
@@ -71,6 +73,19 @@ namespace BusinessLogic.Algorithms.Common
             if (Subset.Count == 0)
                 return;
 
+            foreach (var reductDataObject in ReductDataObjects)
+            {
+                var arguments = Subset.Select(s => reductDataObject.Arguments[s]).ToList();
+
+                var isNewAbstractClass = true;
+
+
+            }
+        }
+
+        private void CalculateApproximation()
+        {
+            throw new System.NotImplementedException();
         }
     }
 }
