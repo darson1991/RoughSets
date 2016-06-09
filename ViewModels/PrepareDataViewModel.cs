@@ -83,15 +83,8 @@ namespace ViewModels
                 ReadContentAndDescriptionFiles();
                 PrepareRoughSetInformations();
                 PrepareDataObjects();
-                ClusteredDataObjects = ClusteringOperations.Clustering(RoughSetInformations, DataObjects);
-                Messenger.Default.Send(new ClusteredDataObjectsMessage
-                {
-                    ClusteredDataObjects = ClusteredDataObjects
-                });
-                Messenger.Default.Send(new IndividualLengthMessage
-                {
-                    Length = ClusteredDataObjects[0].Arguments.Count
-                });
+                PrepareClusteredDataObjects();
+                SendClusteredDataObjectsMessage();
                 IsBusy = false;
                 GoToAlgorithmChoicePageAction?.Invoke();
             }
@@ -102,6 +95,23 @@ namespace ViewModels
                 throw;
             }
 
+        }
+
+        private void PrepareClusteredDataObjects()
+        {
+            ClusteredDataObjects = ClusteringOperations.Clustering(RoughSetInformations, DataObjects);
+        }
+
+        private void SendClusteredDataObjectsMessage()
+        {
+            Messenger.Default.Send(new ClusteredDataObjectsMessage
+            {
+                ClusteredDataObjects = ClusteredDataObjects
+            });
+            Messenger.Default.Send(new IndividualLengthMessage
+            {
+                Length = ClusteredDataObjects[0].Arguments.Count
+            });
         }
 
         private void ReadContentAndDescriptionFiles()
