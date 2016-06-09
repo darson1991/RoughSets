@@ -84,7 +84,7 @@ namespace ViewModels
                 PrepareRoughSetInformations();
                 PrepareDataObjects();
                 PrepareClusteredDataObjects();
-                SendClusteredDataObjectsMessage();
+                SendMessages();
                 IsBusy = false;
                 GoToAlgorithmChoicePageAction?.Invoke();
             }
@@ -102,7 +102,7 @@ namespace ViewModels
             ClusteredDataObjects = ClusteringOperations.Clustering(RoughSetInformations, DataObjects);
         }
 
-        private void SendClusteredDataObjectsMessage()
+        private void SendMessages()
         {
             Messenger.Default.Send(new ClusteredDataObjectsMessage
             {

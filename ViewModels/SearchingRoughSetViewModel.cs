@@ -14,6 +14,7 @@ namespace ViewModels
     {
         private BaseAlgorithm _algorithm;
         private readonly IMessageBoxProvider _messageBoxProvider;
+        private int _individualLength;
 
         public List<ClusteredDataObject> ClusteredDataObjects { get; private set; }
         public KindOfAlgorithm SelectedAlgorithm { get; private set; }
@@ -23,7 +24,13 @@ namespace ViewModels
             _messageBoxProvider = messageBoxProvider;
 
             Messenger.Default.Register<ClusteredDataObjectsMessage>(this, SetClusteredDataObjects);
+            Messenger.Default.Register<IndividualLengthMessage>(this, SetIndividualLength);
             Messenger.Default.Register<SelectedAlgorithmMessage>(this, SetSelectedAlgorithm);
+        }
+
+        private void SetIndividualLength(IndividualLengthMessage obj)
+        {
+            _individualLength = obj.Length;
         }
 
         private void SetClusteredDataObjects(ClusteredDataObjectsMessage message)
@@ -42,17 +49,7 @@ namespace ViewModels
             switch (SelectedAlgorithm)
             {
                 case KindOfAlgorithm.CheckAllSolution:
-                    try
-                    {
-                        var individualLength = ClusteredDataObjects[0].Arguments.Count;
-                        if (individualLength > 20)
-                            throw new IndividualToLengthToCheckAllSolutionsException();
-                        _algorithm = new CheckAllSolutionsAlgorithm(individualLength, ClusteredDataObjects);
-                    }
-                    catch (Exception exception)
-                    {
-                        _messageBoxProvider.ShowMessage(exception.Message);
-                    }
+                    _algorithm = new CheckAllSolutionsAlgorithm(_individualLength, ClusteredDataObjects);
                     break;
                 case KindOfAlgorithm.Genetic:
                     break;
