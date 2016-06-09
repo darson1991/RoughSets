@@ -3,20 +3,25 @@ using System.Collections.Generic;
 using BusinessLogic;
 using BusinessLogic.Algorithms;
 using BusinessLogic.Algorithms.CheckAllSolutions;
+using BusinessLogic.Exceptions;
 using GalaSoft.MvvmLight.Messaging;
 using ViewModels.Messages;
+using ViewModels.Providers;
 
 namespace ViewModels
 {
     public class SearchingRoughSetViewModel
     {
         private BaseAlgorithm _algorithm;
+        private readonly IMessageBoxProvider _messageBoxProvider;
 
         public List<ClusteredDataObject> ClusteredDataObjects { get; private set; }
         public KindOfAlgorithm SelectedAlgorithm { get; private set; }
 
-        public SearchingRoughSetViewModel()
+        public SearchingRoughSetViewModel(IMessageBoxProvider messageBoxProvider)
         {
+            _messageBoxProvider = messageBoxProvider;
+
             Messenger.Default.Register<ClusteredDataObjectsMessage>(this, SetClusteredDataObjects);
             Messenger.Default.Register<SelectedAlgorithmMessage>(this, SetSelectedAlgorithm);
         }
@@ -30,8 +35,6 @@ namespace ViewModels
         {
             SelectedAlgorithm = message.SelectedAlgorithm;
             InitializeAlgorithm();
-
-            _algorithm.Calculate();
         }
 
         private void InitializeAlgorithm()
@@ -41,12 +44,14 @@ namespace ViewModels
                 case KindOfAlgorithm.CheckAllSolution:
                     try
                     {
-                        _algorithm = new CheckAllSolutionsAlgorithm(ClusteredDataObjects[0].Arguments.Count,
-                            ClusteredDataObjects);
+                        var individualLength = ClusteredDataObjects[0].Arguments.Count;
+                        if (individualLength > 20)
+                            throw new IndividualToLengthToCheckAllSolutionsException();
+                        _algorithm = new CheckAllSolutionsAlgorithm(individualLength, ClusteredDataObjects);
                     }
                     catch (Exception exception)
                     {
-                        //TODO: messageBox
+                        _messageBoxProvider.ShowMessage(exception.Message);
                     }
                     break;
                 case KindOfAlgorithm.Genetic:

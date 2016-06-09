@@ -88,6 +88,10 @@ namespace ViewModels
                 {
                     ClusteredDataObjects = ClusteredDataObjects
                 });
+                Messenger.Default.Send(new IndividualLengthMessage
+                {
+                    Length = ClusteredDataObjects[0].Arguments.Count
+                });
                 IsBusy = false;
                 GoToAlgorithmChoicePageAction?.Invoke();
             }

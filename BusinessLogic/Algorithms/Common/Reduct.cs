@@ -130,6 +130,8 @@ namespace BusinessLogic.Algorithms.Common
             var lowerApproximation = 0;
             var upperApproximation = 0;
 
+            var aa = AbstractClasses.Where(a => a.IsClear == false).ToList();
+
             foreach (var abstractClass in AbstractClasses)
             {
                 upperApproximation += abstractClass.ObjectsIndexes.Count;

@@ -65,6 +65,7 @@
     <Compile Include="Exceptions\ConvertStringToNumberException.cs" />
     <Compile Include="Exceptions\FileOperationsException.cs" />
     <Compile Include="Exceptions\FillDataObjectsListException.cs" />
+    <Compile Include="Exceptions\IndividualToLengthToCheckAllSolutionsException.cs" />
     <Compile Include="Helpers\EnumHelper.cs" />
     <Compile Include="Helpers\BinaryStringHelper.cs" />
     <Compile Include="Helpers\StringToNumberConverter.cs" />

@@ -4,11 +4,8 @@ namespace BusinessLogic.Exceptions
 {
     public class ConvertStringToNumberException: Exception
     {
-        public Exception Exception { get; private set; }
-
-        public ConvertStringToNumberException(Exception exception): base("There was a problem with converting strings to numbers.")
+        public ConvertStringToNumberException(Exception exception): base("There was a problem with converting strings to numbers.", exception)
         {
-            Exception = exception;
         }
     }
 }

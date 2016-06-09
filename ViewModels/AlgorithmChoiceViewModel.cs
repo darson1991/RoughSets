@@ -12,7 +12,7 @@ namespace ViewModels
 {
     public class AlgorithmChoiceViewModel: ViewModelBase
     {
-        private KeyValuePair<string, string> selectedAlgorithm;
+        private KeyValuePair<string, string> _selectedAlgorithm;
         private RelayCommand _selectAlgorithmCommand;
 
         public Action GoToSearchingRoughSetPageAction;
@@ -22,10 +22,10 @@ namespace ViewModels
 
         public KeyValuePair<string, string> SelectedAlgorithm
         {
-            get { return selectedAlgorithm; }
+            get { return _selectedAlgorithm; }
             set
             {
-                selectedAlgorithm = value;
+                _selectedAlgorithm = value;
                 RaisePropertyChanged(() => SelectedAlgorithm);
             }
         }
