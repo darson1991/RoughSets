@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using BusinessLogic;
-using BusinessLogic.Algorithms.Common;
 using BusinessLogic.Clustering;
 using BusinessLogic.Exceptions;
 using BusinessLogic.Helpers;

@@ -11,6 +11,7 @@ namespace RoughSets.MvvmUtils
         public PrepareDataViewModel PrepareDataViewModel => ServiceLocator.Current.GetInstance<PrepareDataViewModel>();
         public AlgorithmChoiceViewModel AlgorithmChoiceViewModel => ServiceLocator.Current.GetInstance<AlgorithmChoiceViewModel>();
         public SearchingRoughSetViewModel SearchingRoughSetViewModel => ServiceLocator.Current.GetInstance<SearchingRoughSetViewModel>();
+        public ResultsViewModel ResultsViewModel => ServiceLocator.Current.GetInstance<ResultsViewModel>();
 
         public ViewModelLocator()
         {
@@ -22,6 +23,7 @@ namespace RoughSets.MvvmUtils
             SimpleIoc.Default.Register<PrepareDataViewModel>(true);
             SimpleIoc.Default.Register<AlgorithmChoiceViewModel>(true);
             SimpleIoc.Default.Register<SearchingRoughSetViewModel>(true);
+            SimpleIoc.Default.Register<ResultsViewModel>(true);
         }
 
         private static IOpenFileDialogProvider CreateOpenFIleDialogProvider()
