@@ -48,17 +48,22 @@ namespace ViewModels
         {
             IsBusy = true;
             _algorithm.Calculate();
-            Messenger.Default.Send(new BestSolutionMessage
-            {
-                BestSolution = _algorithm.BestSolution
-            });
+            SendBestSolutionMessage();
             IsBusy = false;
             GoToResultsPageAction();
         }
 
-        private void SetIndividualLength(IndividualLengthMessage obj)
+        private void SendBestSolutionMessage()
         {
-            _individualLength = obj.Length;
+            Messenger.Default.Send(new BestSolutionMessage
+            {
+                BestSolution = _algorithm.BestSolution
+            });
+        }
+
+        private void SetIndividualLength(IndividualLengthMessage message)
+        {
+            _individualLength = message.Length;
         }
 
         private void SetClusteredDataObjects(ClusteredDataObjectsMessage message)
