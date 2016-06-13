@@ -8,7 +8,7 @@
         public int PopulationSize { get; set; }
         public int IterationWithoutImprovment { get; set; }
 
-        public GeneticAlgorithm()
+        public GeneticAlgorithm(GeneticAlgorithmInputValues inputValues)
         {
             SetInitValues();
         }

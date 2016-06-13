@@ -116,6 +116,7 @@ namespace ViewModels
         private void Calculate()
         {
             IsBusy = true;
+            InitializeAlgorithm();
             _algorithm.Calculate();
             SendBestSolutionMessage();
             IsBusy = false;
@@ -143,7 +144,6 @@ namespace ViewModels
         private void SetSelectedAlgorithm(SelectedAlgorithmMessage message)
         {
             SelectedAlgorithm = message.SelectedAlgorithm;
-            InitializeAlgorithm();
         }
 
         private void InitializeAlgorithm()
@@ -155,7 +155,7 @@ namespace ViewModels
                     IsGenetic = false;
                     break;
                 case KindOfAlgorithm.Genetic:
-                    _algorithm = new GeneticAlgorithm();
+                    //_algorithm = new GeneticAlgorithm();
                     IsGenetic = true;
                     break;
                 case KindOfAlgorithm.TabuSearch:
