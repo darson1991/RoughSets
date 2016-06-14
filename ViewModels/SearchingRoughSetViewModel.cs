@@ -18,6 +18,7 @@ namespace ViewModels
         private RelayCommand _calculateCommand;
         private BaseAlgorithm _algorithm;
         private int _individualLength;
+        private KindOfAlgorithm _selectedAlgorithm;
         private bool _isBusy;
 
         private int _iterationWithoutImprovement;
@@ -26,11 +27,18 @@ namespace ViewModels
         private double _crossingOverPossibility;
         private int _tournamentSize;
 
-
         public Action GoToResultsPageAction;
-        private bool _isGenetic;
         public List<ClusteredDataObject> ClusteredDataObjects { get; private set; }
-        public KindOfAlgorithm SelectedAlgorithm { get; private set; }
+
+        public KindOfAlgorithm SelectedAlgorithm
+        {
+            get { return _selectedAlgorithm; }
+            private set
+            {
+                _selectedAlgorithm = value;
+                RaisePropertyChanged(() => SelectedAlgorithm);
+            }
+        }
 
         public RelayCommand CalculateCommand => _calculateCommand ?? (_calculateCommand = new RelayCommand(Calculate));
 
@@ -94,15 +102,7 @@ namespace ViewModels
             }
         }
 
-        public bool IsGenetic
-        {
-            get { return _isGenetic; }
-            set
-            {
-                _isGenetic = value; 
-                RaisePropertyChanged(() => IsGenetic);
-            }
-        }
+        public bool IsGenetic => SelectedAlgorithm == KindOfAlgorithm.Genetic;
 
         public SearchingRoughSetViewModel(IMessageBoxProvider messageBoxProvider)
         {
@@ -144,6 +144,18 @@ namespace ViewModels
         private void SetSelectedAlgorithm(SelectedAlgorithmMessage message)
         {
             SelectedAlgorithm = message.SelectedAlgorithm;
+
+            if(IsGenetic)
+                InitializeGeneticInputValues();
+        }
+
+        private void InitializeGeneticInputValues()
+        {
+            IterationWithoutImprovement = 20;
+            PopulationSize = 10;
+            MutationPossibility = 0.1;
+            CrossingOverPossibility = 0.5;
+            TournamentSize = 5;
         }
 
         private void InitializeAlgorithm()
@@ -152,21 +164,30 @@ namespace ViewModels
             {
                 case KindOfAlgorithm.CheckAllSolution:
                     _algorithm = new CheckAllSolutionsAlgorithm(_individualLength, ClusteredDataObjects);
-                    IsGenetic = false;
                     break;
                 case KindOfAlgorithm.Genetic:
-                    //_algorithm = new GeneticAlgorithm();
-                    IsGenetic = true;
+                    var inputValues = PrepareGeneticInputValues();
+                    _algorithm = new GeneticAlgorithm(_individualLength, ClusteredDataObjects, inputValues);
                     break;
                 case KindOfAlgorithm.TabuSearch:
-                    IsGenetic = false;
                     break;
                 case KindOfAlgorithm.BeesColony:
-                    IsGenetic = false;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+        }
+
+        private GeneticAlgorithmInputValues PrepareGeneticInputValues()
+        {
+            return new GeneticAlgorithmInputValues
+            {
+                IterationWithoutImprovement = IterationWithoutImprovement,
+                PopulationSize = PopulationSize,
+                MutationPossibility = MutationPossibility,
+                CrossingOverPossibility = CrossingOverPossibility,
+                TournamentSize = TournamentSize
+            };
         }
     }
 }

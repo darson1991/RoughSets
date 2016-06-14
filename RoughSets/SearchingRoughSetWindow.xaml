@@ -31,7 +31,7 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <Grid Grid.Row="0" Margin="10" HorizontalAlignment="Center" Visibility="{Binding IsGenetic, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BoolToVisibilityConverter}}">
+        <Grid Grid.Row="0" Margin="10" HorizontalAlignment="Center" Visibility="{Binding IsGenetic, Converter={StaticResource BoolToVisibilityConverter}}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>

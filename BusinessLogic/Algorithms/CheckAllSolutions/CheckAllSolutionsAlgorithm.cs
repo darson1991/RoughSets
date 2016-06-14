@@ -10,14 +10,11 @@ namespace BusinessLogic.Algorithms.CheckAllSolutions
     public class CheckAllSolutionsAlgorithm : BaseAlgorithm
     {
         private readonly long _numberOfSolutions;
-        private readonly List<ClusteredDataObject> _clusteredDataObjects;
-        private readonly int _individualLength;
 
         public CheckAllSolutionsAlgorithm(int individualLength, List<ClusteredDataObject> clusteredDataObjects)
+            : base(individualLength, clusteredDataObjects)
         {
-            _individualLength = individualLength;
-            _numberOfSolutions = (long)Math.Pow(2, individualLength);
-            _clusteredDataObjects = clusteredDataObjects;
+            _numberOfSolutions = (long)Math.Pow(2, _individualLength);
         }
 
         public override void Calculate()
@@ -26,14 +23,19 @@ namespace BusinessLogic.Algorithms.CheckAllSolutions
             {
                 var individual = BinaryStringHelper.ConvertIntToBinaryString(i, _individualLength);
                 var reduct = new Reduct(individual, _clusteredDataObjects);
-                if (BestSolution == null || BestSolution.Approximation < reduct.Approximation
-                    ||
-                    (BestSolution.Approximation == reduct.Approximation &&
-                     BestSolution.Subset.Count > reduct.Subset.Count))
+                if (IsBetterThenBestSolution(reduct))
                 {
                     BestSolution = reduct;
                 }
             }
+        }
+
+        private bool IsBetterThenBestSolution(Reduct reduct)
+        {
+            return BestSolution == null || BestSolution.Approximation < reduct.Approximation
+                   ||
+                   (BestSolution.Approximation == reduct.Approximation &&
+                    BestSolution.Subset.Count > reduct.Subset.Count);
         }
     }
 }

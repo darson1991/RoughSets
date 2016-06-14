@@ -1,30 +1,55 @@
-﻿namespace BusinessLogic.Algorithms.Genetic
+﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using BusinessLogic.Algorithms.Common;
+using BusinessLogic.Helpers;
+
+namespace BusinessLogic.Algorithms.Genetic
 {
+    [SuppressMessage("ReSharper", "CompareOfFloatsByEqualityOperator")]
     public class GeneticAlgorithm: BaseAlgorithm
     {
-        public double MutationPossibility { get; set; }
-        public double CrossingOverPossibility { get; set; }
-        public int TurnamentSize { get; set; }
-        public int PopulationSize { get; set; }
-        public int IterationWithoutImprovment { get; set; }
+        private readonly GeneticAlgorithmInputValues _inputValues;
+        private int _iterationWithoutImprovementCount = 1;
 
-        public GeneticAlgorithm(GeneticAlgorithmInputValues inputValues)
+        public Population ActualPopulation { get; private set; }
+        
+        public GeneticAlgorithm(int individualLength, List<ClusteredDataObject> clusteredDataObjects, GeneticAlgorithmInputValues inputValues) 
+            :base(individualLength, clusteredDataObjects)
         {
-            SetInitValues();
-        }
-
-        private void SetInitValues()
-        {
-            MutationPossibility = 0.01;
-            CrossingOverPossibility = 0.5;
-            TurnamentSize = 5;
-            PopulationSize = 10;
-            IterationWithoutImprovment = 300;
+            _inputValues = inputValues;
         }
 
         public override void Calculate()
         {
-            throw new System.NotImplementedException();
+            ActualPopulation = new Population();
+            SetInitialPopulation();
+            while (_iterationWithoutImprovementCount != _inputValues.IterationWithoutImprovement)
+            {
+                var newPopulation = new Population();
+                newPopulation.Individuals.Add(ActualPopulation.FittestReduct);
+
+                if (ShouldChangeBestSolution())
+                    BestSolution = ActualPopulation.FittestReduct;
+
+
+            }
+        }
+
+        private bool ShouldChangeBestSolution()
+        {
+            return BestSolution == null || ActualPopulation.FittestReduct.Approximation > BestSolution.Approximation
+                   ||
+                   (ActualPopulation.FittestReduct.Approximation == BestSolution.Approximation &&
+                    ActualPopulation.FittestReduct.Subset.Count < BestSolution.Subset.Count);
+        }
+
+        private void SetInitialPopulation()
+        {
+            for (var i = 0; i < _inputValues.PopulationSize; i++)
+            {
+                var randomIndividual = BinaryStringHelper.GenerateRandomIndividual(_individualLength);
+                ActualPopulation.Individuals.Add(new Reduct(randomIndividual, _clusteredDataObjects));
+            }
         }
     }
 }

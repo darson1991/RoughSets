@@ -23,7 +23,7 @@ namespace BusinessLogic.Helpers
             do
             {
                 individual = new string(Enumerable.Repeat(chars, length).Select(s => s[random.Next(s.Length)]).ToArray());
-            } while (individual.Contains('1'));
+            } while (!individual.Contains('1'));
 
             return individual; 
         }
