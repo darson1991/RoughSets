@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using BusinessLogic.Algorithms.Common;
 using BusinessLogic.Helpers;
@@ -23,15 +24,20 @@ namespace BusinessLogic.Algorithms.Genetic
         {
             ActualPopulation = new Population();
             SetInitialPopulation();
+
+            if (ShouldChangeBestSolution())
+                BestSolution = ActualPopulation.FittestReduct;
+
             while (_iterationWithoutImprovementCount != _inputValues.IterationWithoutImprovement)
             {
-                if (ShouldChangeBestSolution())
-                    BestSolution = ActualPopulation.FittestReduct;
-
                 var newPopulation = new Population();
                 newPopulation.Individuals.Add(ActualPopulation.FittestReduct);
 
 
+
+
+                if (ShouldChangeBestSolution())
+                    BestSolution = ActualPopulation.FittestReduct;
             }
         }
 
@@ -50,6 +56,40 @@ namespace BusinessLogic.Algorithms.Genetic
                 var randomIndividual = BinaryStringHelper.GenerateRandomIndividual(_individualLength);
                 ActualPopulation.Individuals.Add(new Reduct(randomIndividual, _clusteredDataObjects));
             }
+        }
+
+        private bool ShouldMutate()
+        {
+            var random = new Random();
+            return random.NextDouble() < _inputValues.MutationPossibility;
+        }
+
+        private Reduct Mutate(Reduct reduct)
+        {
+            var individual = reduct.Individual;
+            var random = new Random();
+            var mutationIndex = random.Next(_individualLength);
+            var newGeneValue = individual[mutationIndex] == '1' ? '0' : '1';
+            var newIndividual = individual.Substring(0, mutationIndex) + newGeneValue + individual.Substring(mutationIndex + 1);
+            return new Reduct(newIndividual, _clusteredDataObjects);
+        }
+
+        private bool ShouldCrossingOver()
+        {
+            var random = new Random();
+            return random.NextDouble() < _inputValues.CrossingOverPossibility;
+        }
+
+        private Tuple<Reduct, Reduct> Crossover(Tuple<string, string> individualsTuple)
+        {
+            var random = new Random();
+            var placeOfCross = random.Next(_individualLength);
+            var newIndividual1 = individualsTuple.Item1.Substring(0, placeOfCross) + individualsTuple.Item2.Substring(placeOfCross);
+            var newIndividual2 = individualsTuple.Item2.Substring(0, placeOfCross) + individualsTuple.Item1.Substring(placeOfCross);
+
+            var reductsTuple = new Tuple<Reduct, Reduct>(new Reduct(newIndividual1, _clusteredDataObjects), new Reduct(newIndividual2, _clusteredDataObjects));
+
+            return reductsTuple;
         }
     }
 }

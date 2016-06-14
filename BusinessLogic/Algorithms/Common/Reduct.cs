@@ -20,19 +20,6 @@ namespace BusinessLogic.Algorithms.Common
             CalculateApproximation();
         }
 
-
-        public char GetChromosomeCharacter(int index)
-        {
-            return Individual[index];
-        }
-
-        public void ChangeChromosomeCharacter(int index, char character)
-        {
-            var charChromosomeArray = Individual.ToCharArray();
-            charChromosomeArray[index] = character;
-            Individual = new string(charChromosomeArray);
-        }
-
         private void GenerateSubset()
         {
             Subset = new List<int>();
