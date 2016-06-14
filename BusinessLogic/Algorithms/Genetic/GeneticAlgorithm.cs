@@ -25,11 +25,11 @@ namespace BusinessLogic.Algorithms.Genetic
             SetInitialPopulation();
             while (_iterationWithoutImprovementCount != _inputValues.IterationWithoutImprovement)
             {
-                var newPopulation = new Population();
-                newPopulation.Individuals.Add(ActualPopulation.FittestReduct);
-
                 if (ShouldChangeBestSolution())
                     BestSolution = ActualPopulation.FittestReduct;
+
+                var newPopulation = new Population();
+                newPopulation.Individuals.Add(ActualPopulation.FittestReduct);
 
 
             }
