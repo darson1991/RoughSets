@@ -33,8 +33,10 @@ namespace BusinessLogic.Algorithms.Genetic
                 var newPopulation = new Population();
                 newPopulation.Individuals.Add(ActualPopulation.FittestReduct);
 
+                for (var i = 1; i < _inputValues.PopulationSize; i++)
+                    newPopulation.Individuals.Add(TournamentSelection());
 
-
+                //TODO: mutate and crossover
 
                 if (ShouldChangeBestSolution())
                     BestSolution = ActualPopulation.FittestReduct;
@@ -84,12 +86,32 @@ namespace BusinessLogic.Algorithms.Genetic
         {
             var random = new Random();
             var placeOfCross = random.Next(_individualLength);
+
             var newIndividual1 = individualsTuple.Item1.Substring(0, placeOfCross) + individualsTuple.Item2.Substring(placeOfCross);
             var newIndividual2 = individualsTuple.Item2.Substring(0, placeOfCross) + individualsTuple.Item1.Substring(placeOfCross);
 
-            var reductsTuple = new Tuple<Reduct, Reduct>(new Reduct(newIndividual1, _clusteredDataObjects), new Reduct(newIndividual2, _clusteredDataObjects));
+            var newReduct1 = new Reduct(newIndividual1, _clusteredDataObjects);
+            var newReduct2 = new Reduct(newIndividual2, _clusteredDataObjects);
 
-            return reductsTuple;
+            return new Tuple<Reduct, Reduct>(newReduct1, newReduct2);
+        }
+
+        private Reduct TournamentSelection()
+        {
+            var tournament = GenerateTournament();
+            return tournament.FittestReduct;
+        }
+
+        private Population GenerateTournament()
+        {
+            var tournament = new Population();
+            for (var i = 0; i < _inputValues.TournamentSize; i++)
+            {
+                var random = new Random();
+                var indexOfIndividual = random.Next(_inputValues.PopulationSize);
+                tournament.Individuals.Add(ActualPopulation.Individuals[indexOfIndividual]);
+            }
+            return tournament;
         }
     }
 }
