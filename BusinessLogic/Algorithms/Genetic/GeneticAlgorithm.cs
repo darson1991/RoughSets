@@ -58,8 +58,11 @@ namespace BusinessLogic.Algorithms.Genetic
 
                 ActualPopulation = newPopulation;
 
-                if (ShouldChangeBestSolution())
-                    BestSolution = ActualPopulation.FittestReduct;
+                if (!ShouldChangeBestSolution())
+                    continue;
+
+                BestSolution = ActualPopulation.FittestReduct;
+                _iterationWithoutImprovementCount = 0;
             }
         }
 
