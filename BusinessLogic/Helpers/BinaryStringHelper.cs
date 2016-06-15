@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Text;
 
 namespace BusinessLogic.Helpers
 {
@@ -17,15 +18,14 @@ namespace BusinessLogic.Helpers
 
         public static string GenerateRandomIndividual(int length)
         {
-            const string chars = "01";
             var random = new Random();
-            string individual;
-            do
-            {
-                individual = new string(Enumerable.Repeat(chars, length).Select(s => s[random.Next(s.Length)]).ToArray());
-            } while (!individual.Contains('1'));
 
-            return individual; 
+            var individual = new StringBuilder();
+            for (var i = 0; i < length; i++)
+                individual.Append(random.Next(2));
+
+            Console.WriteLine(individual.ToString());
+            return individual.ToString();
         }
     }
 }

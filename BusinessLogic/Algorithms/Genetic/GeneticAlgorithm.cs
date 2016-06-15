@@ -10,7 +10,7 @@ namespace BusinessLogic.Algorithms.Genetic
     public class GeneticAlgorithm: BaseAlgorithm
     {
         private readonly GeneticAlgorithmInputValues _inputValues;
-        private int _iterationWithoutImprovementCount = 1;
+        private int _iterationWithoutImprovementCount;
 
         public Population ActualPopulation { get; private set; }
         
@@ -28,7 +28,7 @@ namespace BusinessLogic.Algorithms.Genetic
             if (ShouldChangeBestSolution())
                 BestSolution = ActualPopulation.FittestReduct;
 
-            while (_iterationWithoutImprovementCount != _inputValues.IterationWithoutImprovement)
+            while (++_iterationWithoutImprovementCount != _inputValues.IterationWithoutImprovement)
             {
                 var newPopulation = new Population();
                 newPopulation.Individuals.Add(ActualPopulation.FittestReduct);
@@ -36,7 +36,27 @@ namespace BusinessLogic.Algorithms.Genetic
                 for (var i = 1; i < _inputValues.PopulationSize; i++)
                     newPopulation.Individuals.Add(TournamentSelection());
 
-                //TODO: mutate and crossover
+                for (var i = 0; i < _inputValues.PopulationSize - 1; i += 2)
+                {
+                    if (!ShouldCrossingOver())
+                        continue;
+
+                    var newIndividuals = Crossover(new Tuple<string, string>(newPopulation.Individuals[i].Individual,
+                        newPopulation.Individuals[i + 1].Individual));
+                    newPopulation.Individuals[i] = newIndividuals.Item1;
+                    newPopulation.Individuals[i + 1] = newIndividuals.Item2;
+                }
+
+                for (var i = 0; i < _inputValues.PopulationSize; i++)
+                {
+                    if (!ShouldMutate())
+                        continue;
+
+                    var newIndividual = Mutate(newPopulation.Individuals[i]);
+                    newPopulation.Individuals[i] = newIndividual;
+                }
+
+                ActualPopulation = newPopulation;
 
                 if (ShouldChangeBestSolution())
                     BestSolution = ActualPopulation.FittestReduct;
