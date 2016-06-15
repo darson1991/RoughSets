@@ -22,7 +22,6 @@ namespace BusinessLogic.Algorithms.Genetic
 
         public override void Calculate()
         {
-            ActualPopulation = new Population();
             SetInitialPopulation();
 
             if (ShouldChangeBestSolution())
@@ -30,31 +29,7 @@ namespace BusinessLogic.Algorithms.Genetic
 
             while (++_iterationWithoutImprovementCount != _inputValues.IterationWithoutImprovement)
             {
-                var newPopulation = new Population();
-                newPopulation.Individuals.Add(ActualPopulation.FittestReduct);
-
-                for (var i = 1; i < _inputValues.PopulationSize; i++)
-                    newPopulation.Individuals.Add(TournamentSelection());
-
-                for (var i = 0; i < _inputValues.PopulationSize - 1; i += 2)
-                {
-                    if (!ShouldCrossingOver())
-                        continue;
-
-                    var newIndividuals = Crossover(new Tuple<string, string>(newPopulation.Individuals[i].Individual,
-                        newPopulation.Individuals[i + 1].Individual));
-                    newPopulation.Individuals[i] = newIndividuals.Item1;
-                    newPopulation.Individuals[i + 1] = newIndividuals.Item2;
-                }
-
-                for (var i = 0; i < _inputValues.PopulationSize; i++)
-                {
-                    if (!ShouldMutate())
-                        continue;
-
-                    var newIndividual = Mutate(newPopulation.Individuals[i]);
-                    newPopulation.Individuals[i] = newIndividual;
-                }
+                var newPopulation = CreateNewPopulation();
 
                 ActualPopulation = newPopulation;
 
@@ -63,6 +38,52 @@ namespace BusinessLogic.Algorithms.Genetic
 
                 BestSolution = ActualPopulation.FittestReduct;
                 _iterationWithoutImprovementCount = 0;
+            }
+        }
+
+        private Population CreateNewPopulation()
+        {
+            var newPopulation = InitializeNewPopulation();
+
+            CrossoverPopulation(newPopulation);
+            MutatePopulation(newPopulation);
+
+            return newPopulation;
+        }
+
+        private Population InitializeNewPopulation()
+        {
+            var newPopulation = new Population();
+            newPopulation.Individuals.Add(ActualPopulation.FittestReduct);
+
+            for (var i = 1; i < _inputValues.PopulationSize; i++)
+                newPopulation.Individuals.Add(TournamentSelection());
+            return newPopulation;
+        }
+
+        private void CrossoverPopulation(Population newPopulation)
+        {
+            for (var i = 0; i < _inputValues.PopulationSize - 1; i += 2)
+            {
+                if (!ShouldCrossover())
+                    continue;
+
+                var newIndividuals = CrossoverIndividuals(new Tuple<string, string>(newPopulation.Individuals[i].Individual,
+                    newPopulation.Individuals[i + 1].Individual));
+                newPopulation.Individuals[i] = newIndividuals.Item1;
+                newPopulation.Individuals[i + 1] = newIndividuals.Item2;
+            }
+        }
+
+        private void MutatePopulation(Population newPopulation)
+        {
+            for (var i = 0; i < _inputValues.PopulationSize; i++)
+            {
+                if (!ShouldMutate())
+                    continue;
+
+                var newIndividual = MutateIndividual(newPopulation.Individuals[i]);
+                newPopulation.Individuals[i] = newIndividual;
             }
         }
 
@@ -76,6 +97,8 @@ namespace BusinessLogic.Algorithms.Genetic
 
         private void SetInitialPopulation()
         {
+            ActualPopulation = new Population();
+
             for (var i = 0; i < _inputValues.PopulationSize; i++)
             {
                 var randomIndividual = BinaryStringHelper.GenerateRandomIndividual(_individualLength);
@@ -89,7 +112,7 @@ namespace BusinessLogic.Algorithms.Genetic
             return random.NextDouble() < _inputValues.MutationPossibility;
         }
 
-        private Reduct Mutate(Reduct reduct)
+        private Reduct MutateIndividual(Reduct reduct)
         {
             var individual = reduct.Individual;
             var random = new Random();
@@ -99,13 +122,13 @@ namespace BusinessLogic.Algorithms.Genetic
             return new Reduct(newIndividual, _clusteredDataObjects);
         }
 
-        private bool ShouldCrossingOver()
+        private bool ShouldCrossover()
         {
             var random = new Random();
             return random.NextDouble() < _inputValues.CrossingOverPossibility;
         }
 
-        private Tuple<Reduct, Reduct> Crossover(Tuple<string, string> individualsTuple)
+        private Tuple<Reduct, Reduct> CrossoverIndividuals(Tuple<string, string> individualsTuple)
         {
             var random = new Random();
             var placeOfCross = random.Next(_individualLength);
