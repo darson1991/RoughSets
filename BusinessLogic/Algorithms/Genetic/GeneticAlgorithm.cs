@@ -14,10 +14,10 @@ namespace BusinessLogic.Algorithms.Genetic
 
         public Population ActualPopulation { get; private set; }
         
-        public GeneticAlgorithm(int individualLength, List<ClusteredDataObject> clusteredDataObjects, GeneticAlgorithmInputValues inputValues) 
+        public GeneticAlgorithm(int individualLength, List<ClusteredDataObject> clusteredDataObjects, BaseAlgorithmInputValues inputValues) 
             :base(individualLength, clusteredDataObjects)
         {
-            _inputValues = inputValues;
+            _inputValues = (GeneticAlgorithmInputValues)inputValues;
         }
 
         public override void Calculate()

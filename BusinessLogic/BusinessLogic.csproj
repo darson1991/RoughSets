@@ -63,6 +63,8 @@
     <Compile Include="Algorithms\Genetic\GeneticAlgorithmInputValues.cs" />
     <Compile Include="Algorithms\Genetic\Population.cs" />
     <Compile Include="Algorithms\KindOfAlgorithm.cs" />
+    <Compile Include="Algorithms\Tabu\TabuSearchAlgorithm.cs" />
+    <Compile Include="Algorithms\Tabu\TabuSearchAlgorithmInputValues.cs" />
     <Compile Include="ClusteredDataObject.cs" />
     <Compile Include="DataObject.cs" />
     <Compile Include="Exceptions\ConvertStringToNumberException.cs" />

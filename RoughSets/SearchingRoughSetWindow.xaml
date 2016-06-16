@@ -59,7 +59,24 @@
             <TextBlock Grid.Row="4" Grid.Column="0" Text="Tournament size" HorizontalAlignment="Right" Margin="4 0"/>
             <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding TournamentSize}" Width="50" Margin="4 0"/>
         </Grid>
-        
+
+        <Grid Grid.Row="0" Margin="10" HorizontalAlignment="Center" Visibility="{Binding IsTabu, Converter={StaticResource BoolToVisibilityConverter}}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Grid.Row="0" Grid.Column="0" Text="Iteration without improvement" HorizontalAlignment="Right" Margin="4 0"/>
+            <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding IterationWithoutImprovement}" Width="50" Margin="4 0"/>
+
+            <TextBlock Grid.Row="1" Grid.Column="0" Text="Tabu list length" HorizontalAlignment="Right" Margin="4 0"/>
+            <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding TabuListLength}" Width="50" Margin="4 0"/>
+        </Grid>
+
         <Button Grid.Row="1" Content="Calculate" Width="120" Margin="0 10" PreviewMouseLeftButtonDown="UIElement_OnPreviewMouseLeftButtonDown">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="Click">

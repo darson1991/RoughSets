@@ -4,6 +4,7 @@ using BusinessLogic;
 using BusinessLogic.Algorithms;
 using BusinessLogic.Algorithms.CheckAllSolutions;
 using BusinessLogic.Algorithms.Genetic;
+using BusinessLogic.Algorithms.Tabu;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
@@ -26,6 +27,7 @@ namespace ViewModels
         private double _mutationPossibility;
         private double _crossingOverPossibility;
         private int _tournamentSize;
+        private int _tabuListLength;
 
         public Action GoToResultsPageAction;
         public List<ClusteredDataObject> ClusteredDataObjects { get; private set; }
@@ -102,7 +104,18 @@ namespace ViewModels
             }
         }
 
+        public int TabuListLength
+        {
+            get { return _tabuListLength; }
+            set
+            {
+                _tabuListLength = value;
+                RaisePropertyChanged(() => TabuListLength);
+            }
+        }
+
         public bool IsGenetic => SelectedAlgorithm == KindOfAlgorithm.Genetic;
+        public bool IsTabu => SelectedAlgorithm == KindOfAlgorithm.TabuSearch;
 
         public SearchingRoughSetViewModel(IMessageBoxProvider messageBoxProvider)
         {
@@ -148,29 +161,40 @@ namespace ViewModels
 
             if(IsGenetic)
                 InitializeGeneticInputValues();
+            if (IsTabu)
+                InitializeTabuSearchInputValues();
         }
 
         private void InitializeGeneticInputValues()
         {
-            IterationWithoutImprovement = 20;
+            IterationWithoutImprovement = 2000;
             PopulationSize = 10;
             MutationPossibility = 0.1;
             CrossingOverPossibility = 0.5;
             TournamentSize = 5;
         }
 
+        private void InitializeTabuSearchInputValues()
+        {
+            IterationWithoutImprovement = 2000;
+            TabuListLength = 4;
+        }
+
         private void InitializeAlgorithm()
         {
+            BaseAlgorithmInputValues inputValues;
             switch (SelectedAlgorithm)
             {
                 case KindOfAlgorithm.CheckAllSolution:
                     _algorithm = new CheckAllSolutionsAlgorithm(_individualLength, ClusteredDataObjects);
                     break;
                 case KindOfAlgorithm.Genetic:
-                    var inputValues = PrepareGeneticInputValues();
+                    inputValues = PrepareGeneticInputValues();
                     _algorithm = new GeneticAlgorithm(_individualLength, ClusteredDataObjects, inputValues);
                     break;
                 case KindOfAlgorithm.TabuSearch:
+                    inputValues = PrepareTabuSearchInputValues();
+                    _algorithm = new TabuSearchAlgorithm(_individualLength, ClusteredDataObjects, inputValues);
                     break;
                 case KindOfAlgorithm.BeesColony:
                     break;
@@ -188,6 +212,15 @@ namespace ViewModels
                 MutationPossibility = MutationPossibility,
                 CrossingOverPossibility = CrossingOverPossibility,
                 TournamentSize = TournamentSize
+            };
+        }
+
+        private TabuSearchAlgorithmInputValues PrepareTabuSearchInputValues()
+        {
+            return new TabuSearchAlgorithmInputValues
+            {
+                IterationWithoutImprovement = IterationWithoutImprovement,
+                TabuListLength = TabuListLength
             };
         }
     }
