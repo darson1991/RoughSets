@@ -2,8 +2,9 @@
 
 namespace ViewModels.Messages
 {
-    public class BestSolutionMessage
+    public class BestAndAllAttributesSolutionsMessage
     {
         public Reduct BestSolution { get; set; }
+        public Reduct AllAttributesSolution { get; set; }
     }
 }

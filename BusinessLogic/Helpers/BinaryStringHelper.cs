@@ -27,5 +27,15 @@ namespace BusinessLogic.Helpers
             Console.WriteLine(individual.ToString());
             return individual.ToString();
         }
+
+        public static string GenerateIndividualWithAllAttributes(int length)
+        {
+            var individual = new StringBuilder();
+            for (var i = 0; i < length; i++)
+            {
+                individual.Append('1');
+            }
+            return individual.ToString();
+        }
     }
 }

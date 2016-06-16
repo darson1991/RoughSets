@@ -61,7 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AlgorithmChoiceViewModel.cs" />
-    <Compile Include="Messages\BestSolutionMessage.cs" />
+    <Compile Include="Messages\BestAndAllAttributesSolutionsMessage.cs" />
     <Compile Include="Messages\ClusteredDataObjectsMessage.cs" />
     <Compile Include="Messages\IndividualLengthMessage.cs" />
     <Compile Include="Messages\SelectedAlgorithmMessage.cs" />

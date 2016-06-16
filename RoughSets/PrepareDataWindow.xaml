@@ -6,7 +6,7 @@
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:command="http://www.galasoft.ch/mvvmlight"
         mc:Ignorable="d"
-        WindowTitle="PrepareDataWindow" Height="350" Width="525"
+        WindowTitle="PrepareDataWindow" Height="350" Width="600"
         DataContext="{Binding PrepareDataViewModel, Source={StaticResource ViewModelLocator}}">
     <Page.Style>
         <Style TargetType="Page">

@@ -125,9 +125,10 @@ namespace ViewModels
 
         private void SendBestSolutionMessage()
         {
-            Messenger.Default.Send(new BestSolutionMessage
+            Messenger.Default.Send(new BestAndAllAttributesSolutionsMessage
             {
-                BestSolution = _algorithm.BestSolution
+                BestSolution = _algorithm.BestSolution,
+                AllAttributesSolution = _algorithm.AllAttributesSolution
             });
         }
 

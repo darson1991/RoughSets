@@ -8,15 +8,17 @@ namespace ViewModels
     public class ResultsViewModel: ViewModelBase
     {
         public Reduct BestSolution { get; set; }
+        public Reduct AllAttributesSolution { get; set; }
 
         public ResultsViewModel()
         {
-            Messenger.Default.Register<BestSolutionMessage>(this, SetBestSolution);
+            Messenger.Default.Register<BestAndAllAttributesSolutionsMessage>(this, SetBestSolution);
         }
 
-        private void SetBestSolution(BestSolutionMessage message)
+        private void SetBestSolution(BestAndAllAttributesSolutionsMessage message)
         {
             BestSolution = message.BestSolution;
+            AllAttributesSolution = message.AllAttributesSolution;
         }
     }
 }

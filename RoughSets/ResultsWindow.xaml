@@ -13,15 +13,45 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        
-        <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center">
-            <TextBlock Text="Individual" Margin="4 0"/>
-            <TextBlock Text="{Binding BestSolution.Individual}" Margin="4 0"/>
-        </StackPanel>
 
-        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
-            <TextBlock Text="Approximation" Margin="4 0"/>
-            <TextBlock Text="{Binding BestSolution.Approximation}" Margin="4 0"/>
-        </StackPanel>
+        <Grid Grid.Row="0" Margin="0 10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <TextBlock Grid.Row="0" Text="Algorithm best solution"  HorizontalAlignment="Center" FontWeight="Bold" FontSize="18"/>
+            
+            <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
+                <TextBlock Text="Individual" Margin="4 0"/>
+                <TextBlock Text="{Binding BestSolution.Individual}" Margin="4 0"/>
+            </StackPanel>
+
+            <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
+                <TextBlock Text="Approximation" Margin="4 0"/>
+                <TextBlock Text="{Binding BestSolution.Approximation}" Margin="4 0"/>
+            </StackPanel>
+        </Grid>
+
+        <Grid Grid.Row="1" Margin="0 10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <TextBlock Grid.Row="0" Text="Solution with all attributes" HorizontalAlignment="Center" FontWeight="Bold" FontSize="18"/>
+
+            <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
+                <TextBlock Text="Individual" Margin="4 0"/>
+                <TextBlock Text="{Binding AllAttributesSolution.Individual}" Margin="4 0"/>
+            </StackPanel>
+
+            <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
+                <TextBlock Text="Approximation" Margin="4 0"/>
+                <TextBlock Text="{Binding AllAttributesSolution.Approximation}" Margin="4 0"/>
+            </StackPanel>
+        </Grid>
     </Grid>
 </Page>

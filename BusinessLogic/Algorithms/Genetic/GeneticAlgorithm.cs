@@ -22,6 +22,7 @@ namespace BusinessLogic.Algorithms.Genetic
 
         public override void Calculate()
         {
+            CalculateApproximationForAllAttributes();
             SetInitialPopulation();
 
             if (ShouldChangeBestSolution())

@@ -19,6 +19,7 @@ namespace BusinessLogic.Algorithms.CheckAllSolutions
 
         public override void Calculate()
         {
+            CalculateApproximationForAllAttributes();
             for (var i = 1; i < _numberOfSolutions; i++)
             {
                 var individual = BinaryStringHelper.ConvertIntToBinaryString(i, _individualLength);
