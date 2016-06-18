@@ -116,6 +116,7 @@ namespace ViewModels
 
         public bool IsGenetic => SelectedAlgorithm == KindOfAlgorithm.Genetic;
         public bool IsTabu => SelectedAlgorithm == KindOfAlgorithm.TabuSearch;
+        public bool IsBees => SelectedAlgorithm == KindOfAlgorithm.BeesColony;
 
         public SearchingRoughSetViewModel(IMessageBoxProvider messageBoxProvider)
         {
@@ -159,7 +160,7 @@ namespace ViewModels
         {
             SelectedAlgorithm = message.SelectedAlgorithm;
 
-            if(IsGenetic)
+            if (IsGenetic)
                 InitializeGeneticInputValues();
             if (IsTabu)
                 InitializeTabuSearchInputValues();
@@ -167,7 +168,7 @@ namespace ViewModels
 
         private void InitializeGeneticInputValues()
         {
-            IterationWithoutImprovement = 2000;
+            InitializeIterationWithoutImprovementValue();
             PopulationSize = 10;
             MutationPossibility = 0.1;
             CrossingOverPossibility = 0.5;
@@ -176,8 +177,13 @@ namespace ViewModels
 
         private void InitializeTabuSearchInputValues()
         {
+            InitializeIterationWithoutImprovementValue();
+            TabuListLength = 3;
+        }
+
+        private void InitializeIterationWithoutImprovementValue()
+        {
             IterationWithoutImprovement = 2000;
-            TabuListLength = 4;
         }
 
         private void InitializeAlgorithm()

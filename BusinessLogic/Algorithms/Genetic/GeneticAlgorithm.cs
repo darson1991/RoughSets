@@ -15,7 +15,7 @@ namespace BusinessLogic.Algorithms.Genetic
         public Population ActualPopulation { get; private set; }
         
         public GeneticAlgorithm(int individualLength, List<ClusteredDataObject> clusteredDataObjects, BaseAlgorithmInputValues inputValues) 
-            :base(individualLength, clusteredDataObjects)
+            : base(individualLength, clusteredDataObjects)
         {
             _inputValues = (GeneticAlgorithmInputValues)inputValues;
         }
@@ -25,8 +25,7 @@ namespace BusinessLogic.Algorithms.Genetic
             CalculateApproximationForAllAttributes();
             SetInitialPopulation();
 
-            if (ShouldChangeBestSolution())
-                BestSolution = ActualPopulation.FittestReduct;
+            BestSolution = ActualPopulation.FittestReduct;
 
             while (++_iterationWithoutImprovementCount != _inputValues.IterationWithoutImprovement)
             {
@@ -102,8 +101,8 @@ namespace BusinessLogic.Algorithms.Genetic
 
             for (var i = 0; i < _inputValues.PopulationSize; i++)
             {
-                var randomIndividual = BinaryStringHelper.GenerateRandomIndividual(_individualLength);
-                ActualPopulation.Individuals.Add(new Reduct(randomIndividual, _clusteredDataObjects));
+                var randomIndividual = BinaryStringHelper.GenerateRandomIndividual(IndividualLength);
+                ActualPopulation.Individuals.Add(new Reduct(randomIndividual, ClusteredDataObjects));
             }
         }
 
@@ -117,10 +116,10 @@ namespace BusinessLogic.Algorithms.Genetic
         {
             var individual = reduct.Individual;
             var random = new Random();
-            var mutationIndex = random.Next(_individualLength);
+            var mutationIndex = random.Next(IndividualLength);
             var newGeneValue = individual[mutationIndex] == '1' ? '0' : '1';
             var newIndividual = individual.Substring(0, mutationIndex) + newGeneValue + individual.Substring(mutationIndex + 1);
-            return new Reduct(newIndividual, _clusteredDataObjects);
+            return new Reduct(newIndividual, ClusteredDataObjects);
         }
 
         private bool ShouldCrossover()
@@ -132,13 +131,13 @@ namespace BusinessLogic.Algorithms.Genetic
         private Tuple<Reduct, Reduct> CrossoverIndividuals(Tuple<string, string> individualsTuple)
         {
             var random = new Random();
-            var placeOfCross = random.Next(_individualLength);
+            var placeOfCross = random.Next(IndividualLength);
 
             var newIndividual1 = individualsTuple.Item1.Substring(0, placeOfCross) + individualsTuple.Item2.Substring(placeOfCross);
             var newIndividual2 = individualsTuple.Item2.Substring(0, placeOfCross) + individualsTuple.Item1.Substring(placeOfCross);
 
-            var newReduct1 = new Reduct(newIndividual1, _clusteredDataObjects);
-            var newReduct2 = new Reduct(newIndividual2, _clusteredDataObjects);
+            var newReduct1 = new Reduct(newIndividual1, ClusteredDataObjects);
+            var newReduct2 = new Reduct(newIndividual2, ClusteredDataObjects);
 
             return new Tuple<Reduct, Reduct>(newReduct1, newReduct2);
         }

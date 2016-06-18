@@ -14,7 +14,7 @@ namespace BusinessLogic.Algorithms.CheckAllSolutions
         public CheckAllSolutionsAlgorithm(int individualLength, List<ClusteredDataObject> clusteredDataObjects)
             : base(individualLength, clusteredDataObjects)
         {
-            _numberOfSolutions = (long)Math.Pow(2, _individualLength);
+            _numberOfSolutions = (long)Math.Pow(2, IndividualLength);
         }
 
         public override void Calculate()
@@ -22,8 +22,8 @@ namespace BusinessLogic.Algorithms.CheckAllSolutions
             CalculateApproximationForAllAttributes();
             for (var i = 1; i < _numberOfSolutions; i++)
             {
-                var individual = BinaryStringHelper.ConvertIntToBinaryString(i, _individualLength);
-                var reduct = new Reduct(individual, _clusteredDataObjects);
+                var individual = BinaryStringHelper.ConvertIntToBinaryString(i, IndividualLength);
+                var reduct = new Reduct(individual, ClusteredDataObjects);
                 if (IsBetterThenBestSolution(reduct))
                 {
                     BestSolution = reduct;
