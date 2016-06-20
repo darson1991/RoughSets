@@ -36,7 +36,6 @@ namespace BusinessLogic.Algorithms.Tabu
 
                 int? indexOfIndividualChange;
                 var bestNeighbor = ChooseNextNeighbor(neighborsList, out indexOfIndividualChange); 
-
                 if (indexOfIndividualChange == null)
                     continue;
 
