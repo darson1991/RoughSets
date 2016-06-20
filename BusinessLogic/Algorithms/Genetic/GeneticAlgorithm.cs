@@ -33,7 +33,7 @@ namespace BusinessLogic.Algorithms.Genetic
 
                 ActualPopulation = newPopulation;
 
-                if (!ShouldChangeBestSolution())
+                if (!ShouldChangeBestSolution(ActualPopulation.FittestReduct))
                     continue;
 
                 BestSolution = ActualPopulation.FittestReduct;
@@ -85,14 +85,6 @@ namespace BusinessLogic.Algorithms.Genetic
                 var newIndividual = MutateIndividual(newPopulation.Individuals[i]);
                 newPopulation.Individuals[i] = newIndividual;
             }
-        }
-
-        private bool ShouldChangeBestSolution()
-        {
-            return BestSolution == null || ActualPopulation.FittestReduct.Approximation > BestSolution.Approximation
-                   ||
-                   (ActualPopulation.FittestReduct.Approximation == BestSolution.Approximation &&
-                    ActualPopulation.FittestReduct.Subset.Count < BestSolution.Subset.Count);
         }
 
         private void SetInitialPopulation()

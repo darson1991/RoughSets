@@ -7,13 +7,12 @@ using BusinessLogic.Helpers;
 
 namespace BusinessLogic.Algorithms.Tabu
 {
-    [SuppressMessage("ReSharper", "CompareOfFloatsByEqualityOperator")]
     [SuppressMessage("ReSharper", "LoopCanBeConvertedToQuery")]
     public class TabuSearchAlgorithm: BaseAlgorithm
     {
         private readonly TabuSearchAlgorithmInputValues _inputValues;
         private int _iterationWithoutImprovementCount;
-        private int[] _tabuList; 
+        private readonly int[] _tabuList; 
 
         public Reduct ActualSolution { get; set; }
 
@@ -35,9 +34,9 @@ namespace BusinessLogic.Algorithms.Tabu
             {
                 var neighborsList = GenerateSortedNeighborhoodForActualSolution();
 
-                var bestNeighbor = ChooseNextNeighbor(neighborsList); 
+                int? indexOfIndividualChange;
+                var bestNeighbor = ChooseNextNeighbor(neighborsList, out indexOfIndividualChange); 
 
-                var indexOfIndividualChange = GetIndexOfIndividualStringChange(bestNeighbor);
                 if (indexOfIndividualChange == null)
                     continue;
 
@@ -45,7 +44,7 @@ namespace BusinessLogic.Algorithms.Tabu
 
                 TabuListActualization((int)indexOfIndividualChange);
 
-                if (!ShouldChangeBestSolution())
+                if (!ShouldChangeBestSolution(ActualSolution))
                     continue;
 
                 BestSolution = ActualSolution;
@@ -53,16 +52,21 @@ namespace BusinessLogic.Algorithms.Tabu
             }
         }
 
-        private Reduct ChooseNextNeighbor(IReadOnlyList<Reduct> neighborsList)
+        private Reduct ChooseNextNeighbor(IEnumerable<Reduct> neighborsList, out int? indexOfIndividualChange)
         {
-            //TODO: add checking situation where  circular changes of best neighbor is (maybe frequence will be nice to add)
             Reduct bestNeighbor = null;
-            for (var i = 0; i < neighborsList.Count; i++)
+            indexOfIndividualChange = null;
+            foreach (var neighbor in neighborsList)
             {
+                var index = GetIndexOfIndividualStringChange(neighbor);
+                if (index == null)
+                    continue;
+
                 // ReSharper disable once InvertIf
-                if (neighborsList[i].Approximation > BestSolution.Approximation || _tabuList[i] == 0)
+                if (ShouldChangeBestSolution(neighbor) || _tabuList[(int)index] == 0)
                 {
-                    bestNeighbor = neighborsList[i];
+                    bestNeighbor = neighbor;
+                    indexOfIndividualChange = index;
                     break;
                 }
             }
@@ -91,7 +95,7 @@ namespace BusinessLogic.Algorithms.Tabu
             return null;
         }
 
-        private List<Reduct> GenerateSortedNeighborhoodForActualSolution()
+        private IEnumerable<Reduct> GenerateSortedNeighborhoodForActualSolution()
         {
             var neighborsList = new List<Reduct>();
 
@@ -116,14 +120,6 @@ namespace BusinessLogic.Algorithms.Tabu
         {
             var individual = BinaryStringHelper.GenerateRandomIndividual(IndividualLength);
             ActualSolution = new Reduct(individual, ClusteredDataObjects);
-        }
-
-        private bool ShouldChangeBestSolution()
-        {
-            return BestSolution == null || ActualSolution.Approximation > BestSolution.Approximation
-                   ||
-                   (ActualSolution.Approximation == BestSolution.Approximation &&
-                    ActualSolution.Subset.Count < BestSolution.Subset.Count);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using BusinessLogic.Algorithms.Common;
 using BusinessLogic.Helpers;
 
@@ -24,6 +25,15 @@ namespace BusinessLogic.Algorithms
         {
             var individual = BinaryStringHelper.GenerateIndividualWithAllAttributes(IndividualLength);
             AllAttributesSolution = new Reduct(individual, ClusteredDataObjects);
+        }
+
+        [SuppressMessage("ReSharper", "CompareOfFloatsByEqualityOperator")]
+        protected bool ShouldChangeBestSolution(Reduct reduct)
+        {
+            return BestSolution == null || reduct.Approximation > BestSolution.Approximation
+                   ||
+                   (reduct.Approximation == BestSolution.Approximation &&
+                    reduct.Subset.Count < BestSolution.Subset.Count);
         }
     }
 }
