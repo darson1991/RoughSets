@@ -19,6 +19,7 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
             <TextBlock Grid.Row="0" Text="Algorithm best solution"  HorizontalAlignment="Center" FontWeight="Bold" FontSize="18"/>
@@ -32,10 +33,16 @@
                 <TextBlock Text="Approximation" Margin="4 0"/>
                 <TextBlock Text="{Binding BestSolution.Approximation}" Margin="4 0"/>
             </StackPanel>
+
+            <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center">
+                <TextBlock Text="Subset length" Margin="4 0"/>
+                <TextBlock Text="{Binding BestSolution.Subset.Count}" Margin="4 0"/>
+            </StackPanel>
         </Grid>
 
         <Grid Grid.Row="1" Margin="0 10">
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
@@ -51,6 +58,11 @@
             <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
                 <TextBlock Text="Approximation" Margin="4 0"/>
                 <TextBlock Text="{Binding AllAttributesSolution.Approximation}" Margin="4 0"/>
+            </StackPanel>
+
+            <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center">
+                <TextBlock Text="Subset length" Margin="4 0"/>
+                <TextBlock Text="{Binding AllAttributesSolution.Subset.Count}" Margin="4 0"/>
             </StackPanel>
         </Grid>
     </Grid>

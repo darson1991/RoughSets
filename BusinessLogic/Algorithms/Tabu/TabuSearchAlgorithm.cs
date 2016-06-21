@@ -101,8 +101,8 @@ namespace BusinessLogic.Algorithms.Tabu
             for (var i = 0; i < IndividualLength; i++)
             {
                 var neighborIndividual = GenerateNeighborIndividualString(i);
-                var neighbor = new Reduct(neighborIndividual, ClusteredDataObjects);
-                neighborsList.Add(neighbor);
+                TryAddReductToCheckedReductsList(neighborIndividual);
+                neighborsList.Add(CheckedReducts.FirstOrDefault(r => r.Individual == neighborIndividual));
             }
 
             return neighborsList.OrderBy(n => n.Approximation).Reverse().ToList();
@@ -119,6 +119,7 @@ namespace BusinessLogic.Algorithms.Tabu
         {
             var individual = BinaryStringHelper.GenerateRandomIndividual(IndividualLength);
             ActualSolution = new Reduct(individual, ClusteredDataObjects);
+            CheckedReducts.Add(ActualSolution);
         }
     }
 }

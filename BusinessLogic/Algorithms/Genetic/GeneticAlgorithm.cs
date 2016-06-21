@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using BusinessLogic.Algorithms.Common;
 using BusinessLogic.Helpers;
 
@@ -94,7 +95,8 @@ namespace BusinessLogic.Algorithms.Genetic
             for (var i = 0; i < _inputValues.PopulationSize; i++)
             {
                 var randomIndividual = BinaryStringHelper.GenerateRandomIndividual(IndividualLength);
-                ActualPopulation.Individuals.Add(new Reduct(randomIndividual, ClusteredDataObjects));
+                TryAddReductToCheckedReductsList(randomIndividual);
+                ActualPopulation.Individuals.Add(CheckedReducts.FirstOrDefault(r => r.Individual == randomIndividual));
             }
         }
 
@@ -128,8 +130,11 @@ namespace BusinessLogic.Algorithms.Genetic
             var newIndividual1 = individualsTuple.Item1.Substring(0, placeOfCross) + individualsTuple.Item2.Substring(placeOfCross);
             var newIndividual2 = individualsTuple.Item2.Substring(0, placeOfCross) + individualsTuple.Item1.Substring(placeOfCross);
 
-            var newReduct1 = new Reduct(newIndividual1, ClusteredDataObjects);
-            var newReduct2 = new Reduct(newIndividual2, ClusteredDataObjects);
+            TryAddReductToCheckedReductsList(newIndividual1);
+            TryAddReductToCheckedReductsList(newIndividual2);
+            
+            var newReduct1 = CheckedReducts.FirstOrDefault(r => r.Individual == newIndividual1);
+            var newReduct2 = CheckedReducts.FirstOrDefault(r => r.Individual == newIndividual2);
 
             return new Tuple<Reduct, Reduct>(newReduct1, newReduct2);
         }

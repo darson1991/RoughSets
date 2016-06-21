@@ -9,13 +9,11 @@ using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
 using ViewModels.Messages;
-using ViewModels.Providers;
 
 namespace ViewModels
 {
     public class SearchingRoughSetViewModel : ViewModelBase
     {
-        private readonly IMessageBoxProvider _messageBoxProvider;
         private RelayCommand _calculateCommand;
         private BaseAlgorithm _algorithm;
         private int _individualLength;
@@ -118,10 +116,8 @@ namespace ViewModels
         public bool IsTabu => SelectedAlgorithm == KindOfAlgorithm.TabuSearch;
         public bool IsBees => SelectedAlgorithm == KindOfAlgorithm.BeesColony;
 
-        public SearchingRoughSetViewModel(IMessageBoxProvider messageBoxProvider)
+        public SearchingRoughSetViewModel()
         {
-            _messageBoxProvider = messageBoxProvider;
-
             Messenger.Default.Register<ClusteredDataObjectsMessage>(this, SetClusteredDataObjects);
             Messenger.Default.Register<IndividualLengthMessage>(this, SetIndividualLength);
             Messenger.Default.Register<SelectedAlgorithmMessage>(this, SetSelectedAlgorithm);
