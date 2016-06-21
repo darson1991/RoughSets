@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using BusinessLogic;
 using BusinessLogic.Algorithms;
+using BusinessLogic.Algorithms.Bees;
 using BusinessLogic.Algorithms.CheckAllSolutions;
 using BusinessLogic.Algorithms.Genetic;
 using BusinessLogic.Algorithms.Tabu;
@@ -160,6 +161,8 @@ namespace ViewModels
                 InitializeGeneticInputValues();
             if (IsTabu)
                 InitializeTabuSearchInputValues();
+            if (IsBees)
+                InitializeBeesColonyInputValues();
         }
 
         private void InitializeGeneticInputValues()
@@ -175,6 +178,11 @@ namespace ViewModels
         {
             InitializeIterationWithoutImprovementValue();
             TabuListLength = 3;
+        }
+
+        private void InitializeBeesColonyInputValues()
+        {
+            InitializeIterationWithoutImprovementValue();
         }
 
         private void InitializeIterationWithoutImprovementValue()
@@ -199,6 +207,8 @@ namespace ViewModels
                     _algorithm = new TabuSearchAlgorithm(_individualLength, ClusteredDataObjects, inputValues);
                     break;
                 case KindOfAlgorithm.BeesColony:
+                    inputValues = PrepareBeesColonyInputValues();
+                    _algorithm = new BeesColonyAlgorithm(_individualLength, ClusteredDataObjects, inputValues);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -223,6 +233,14 @@ namespace ViewModels
             {
                 IterationWithoutImprovement = IterationWithoutImprovement,
                 TabuListLength = TabuListLength
+            };
+        }
+
+        private BaseAlgorithmInputValues PrepareBeesColonyInputValues()
+        {
+            return new BeesColonyAlgorithmInputValues
+            {
+                IterationWithoutImprovement = IterationWithoutImprovement
             };
         }
     }
