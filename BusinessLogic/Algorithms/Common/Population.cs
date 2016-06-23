@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using BusinessLogic.Algorithms.Common;
 
-namespace BusinessLogic.Algorithms.Genetic
+namespace BusinessLogic.Algorithms.Common
 {
     [SuppressMessage("ReSharper", "CompareOfFloatsByEqualityOperator")]
     public class Population

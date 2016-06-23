@@ -27,8 +27,13 @@ namespace ViewModels
         private double _crossingOverPossibility;
         private int _tournamentSize;
         private int _tabuListLength;
+        private int _numberOfEliteSolutions;
+        private int _numberOfBestSolutions;
+        private int _eliteNeighborhoodSize;
+        private int _bestNeighborhoodSize;
 
         public Action GoToResultsPageAction;
+
         public List<ClusteredDataObject> ClusteredDataObjects { get; private set; }
 
         public KindOfAlgorithm SelectedAlgorithm
@@ -113,6 +118,46 @@ namespace ViewModels
             }
         }
 
+        public int NumberOfEliteSolutions
+        {
+            get { return _numberOfEliteSolutions; }
+            set
+            {
+                _numberOfEliteSolutions = value; 
+                RaisePropertyChanged();
+            }
+        }
+
+        public int NumberOfBestSolutions
+        {
+            get { return _numberOfBestSolutions; }
+            set
+            {
+                _numberOfBestSolutions = value; 
+                RaisePropertyChanged();
+            }
+        }
+
+        public int EliteNeighborhoodSize
+        {
+            get { return _eliteNeighborhoodSize; }
+            set
+            {
+                _eliteNeighborhoodSize = value; 
+                RaisePropertyChanged();
+           }
+        }
+
+        public int BestNeighborhoodSize 
+        {
+            get { return _bestNeighborhoodSize; }
+            set
+            {
+                _bestNeighborhoodSize = value; 
+                RaisePropertyChanged();
+           }
+        }
+
         public bool IsGenetic => SelectedAlgorithm == KindOfAlgorithm.Genetic;
         public bool IsTabu => SelectedAlgorithm == KindOfAlgorithm.TabuSearch;
         public bool IsBees => SelectedAlgorithm == KindOfAlgorithm.BeesColony;
@@ -183,6 +228,11 @@ namespace ViewModels
         private void InitializeBeesColonyInputValues()
         {
             InitializeIterationWithoutImprovementValue();
+            PopulationSize = 10;
+            NumberOfEliteSolutions = 5;
+            NumberOfBestSolutions = 3;
+            EliteNeighborhoodSize = 5;
+            BestNeighborhoodSize = 3;
         }
 
         private void InitializeIterationWithoutImprovementValue()

@@ -60,10 +60,10 @@
     <Compile Include="Algorithms\Bees\BeesColonyAlgorithmInputValues.cs" />
     <Compile Include="Algorithms\Common\AbstractClass.cs" />
     <Compile Include="Algorithms\CheckAllSolutions\CheckAllSolutionsAlgorithm.cs" />
+    <Compile Include="Algorithms\Common\Population.cs" />
     <Compile Include="Algorithms\Genetic\GeneticAlgorithm.cs" />
     <Compile Include="Algorithms\BaseAlgorithm.cs" />
     <Compile Include="Algorithms\Genetic\GeneticAlgorithmInputValues.cs" />
-    <Compile Include="Algorithms\Genetic\Population.cs" />
     <Compile Include="Algorithms\KindOfAlgorithm.cs" />
     <Compile Include="Algorithms\Tabu\TabuSearchAlgorithm.cs" />
     <Compile Include="Algorithms\Tabu\TabuSearchAlgorithmInputValues.cs" />
