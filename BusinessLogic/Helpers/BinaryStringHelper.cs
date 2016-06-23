@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Text;
 
 namespace BusinessLogic.Helpers
@@ -26,6 +25,14 @@ namespace BusinessLogic.Helpers
 
             Console.WriteLine(individual.ToString());
             return individual.ToString();
+        }
+
+        public static string GenerateNeighborSolution(string individual)
+        {
+            var random = new Random();
+            var index = random.Next(individual.Length);
+            var indexValue = individual[index] == '0' ? '1' : '0';
+            return individual.Substring(0, index) + indexValue + individual.Substring(index + 1);
         }
 
         public static string GenerateIndividualWithAllAttributes(int length)

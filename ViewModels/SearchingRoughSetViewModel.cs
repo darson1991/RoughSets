@@ -290,7 +290,12 @@ namespace ViewModels
         {
             return new BeesColonyAlgorithmInputValues
             {
-                IterationWithoutImprovement = IterationWithoutImprovement
+                IterationWithoutImprovement = IterationWithoutImprovement,
+                PopulationSize = PopulationSize,
+                NumberOfEliteSolutions = NumberOfEliteSolutions,
+                NumberOfBestSolutions = NumberOfBestSolutions,
+                EliteNeighborhoodSize = EliteNeighborhoodSize,
+                BestNeighborhoodSize = BestNeighborhoodSize
             };
         }
     }

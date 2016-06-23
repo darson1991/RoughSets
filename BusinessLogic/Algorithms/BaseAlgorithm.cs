@@ -35,8 +35,7 @@ namespace BusinessLogic.Algorithms
             if (CheckedReducts.Any(r => r.Individual == individual))
                 return;
 
-            var reduct = new Reduct(individual, ClusteredDataObjects);
-            CheckedReducts.Add(reduct);
+            CreateNewReduct(individual);
         }
 
         [SuppressMessage("ReSharper", "CompareOfFloatsByEqualityOperator")]
@@ -46,6 +45,12 @@ namespace BusinessLogic.Algorithms
                    ||
                    (reduct.Approximation == BestSolution.Approximation &&
                     reduct.Subset.Count < BestSolution.Subset.Count);
+        }
+
+        private void CreateNewReduct(string individual)
+        {
+            var reduct = new Reduct(individual, ClusteredDataObjects);
+            CheckedReducts.Add(reduct);
         }
     }
 }
