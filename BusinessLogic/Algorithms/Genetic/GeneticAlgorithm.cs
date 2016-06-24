@@ -59,6 +59,7 @@ namespace BusinessLogic.Algorithms.Genetic
 
             for (var i = 1; i < _inputValues.PopulationSize; i++)
                 newPopulation.Individuals.Add(TournamentSelection());
+
             return newPopulation;
         }
 

@@ -42,7 +42,7 @@ namespace ViewModels
         public string ContentFileUrl
         {
             get { return _contentFileUrl; }
-            set
+            private set
             {
                 _contentFileUrl = value;
                 RaisePropertyChanged(() => CanFillData);
@@ -53,7 +53,7 @@ namespace ViewModels
         public bool IsBusy
         {
             get { return _isBusy; }
-            set
+            private set
             {
                 _isBusy = value; 
                 RaisePropertyChanged(() => IsBusy);
@@ -163,9 +163,8 @@ namespace ViewModels
             var decisionClasses = new List<string>();
 
             for (var i = 1; i < lines.Count; i++)
-            {
                 decisionClasses.Add(lines[i].Split(':')[0]);
-            }
+
             return decisionClasses;
         }
 
@@ -174,8 +173,7 @@ namespace ViewModels
             if (lines == null || lines.Count == 0)
                 return new List<string>();
 
-            var argumentNames = lines[0].Split(',').ToList();
-            return argumentNames;
+            return lines[0].Split(',').ToList();
         }
 
         private void CreateRoughSetInformations(List<string> argumentNames, List<string> decisionClasses)

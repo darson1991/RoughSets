@@ -17,14 +17,13 @@ namespace ViewModels
     {
         private RelayCommand _calculateCommand;
         private BaseAlgorithm _algorithm;
-        private int _individualLength;
         private KindOfAlgorithm _selectedAlgorithm;
         private bool _isBusy;
-
-        private int _iterationWithoutImprovement;
-        private int _populationSize;
         private double _mutationPossibility;
         private double _crossingOverPossibility;
+        private int _individualLength;
+        private int _iterationWithoutImprovement;
+        private int _populationSize;
         private int _tournamentSize;
         private int _tabuListLength;
         private int _numberOfEliteSolutions;
@@ -51,7 +50,7 @@ namespace ViewModels
         public bool IsBusy
         {
             get { return _isBusy; }
-            set
+            private set
             {
                 _isBusy = value;
                 RaisePropertyChanged(() => IsBusy);
@@ -61,7 +60,7 @@ namespace ViewModels
         public int IterationWithoutImprovement
         {
             get { return _iterationWithoutImprovement; }
-            set
+            private set
             {
                 _iterationWithoutImprovement = value;
                 RaisePropertyChanged(() => IterationWithoutImprovement);
@@ -71,7 +70,7 @@ namespace ViewModels
         public int PopulationSize
         {
             get { return _populationSize; }
-            set
+            private set
             {
                 _populationSize = value;
                 RaisePropertyChanged(() => PopulationSize);
@@ -81,7 +80,7 @@ namespace ViewModels
         public double MutationPossibility
         {
             get { return _mutationPossibility; }
-            set
+            private set
             {
                 _mutationPossibility = value;
                 RaisePropertyChanged(() => MutationPossibility);
@@ -91,7 +90,7 @@ namespace ViewModels
         public double CrossingOverPossibility
         {
             get { return _crossingOverPossibility; }
-            set
+            private set
             {
                 _crossingOverPossibility = value;
                 RaisePropertyChanged(() => CrossingOverPossibility);
@@ -101,7 +100,7 @@ namespace ViewModels
         public int TournamentSize
         {
             get { return _tournamentSize; }
-            set
+            private set
             {
                 _tournamentSize = value;
                 RaisePropertyChanged(() => TournamentSize);
@@ -111,7 +110,7 @@ namespace ViewModels
         public int TabuListLength
         {
             get { return _tabuListLength; }
-            set
+            private set
             {
                 _tabuListLength = value;
                 RaisePropertyChanged(() => TabuListLength);
@@ -121,7 +120,7 @@ namespace ViewModels
         public int NumberOfEliteSolutions
         {
             get { return _numberOfEliteSolutions; }
-            set
+            private set
             {
                 _numberOfEliteSolutions = value; 
                 RaisePropertyChanged();
@@ -131,7 +130,7 @@ namespace ViewModels
         public int NumberOfBestSolutions
         {
             get { return _numberOfBestSolutions; }
-            set
+            private set
             {
                 _numberOfBestSolutions = value; 
                 RaisePropertyChanged();
@@ -141,7 +140,7 @@ namespace ViewModels
         public int EliteNeighborhoodSize
         {
             get { return _eliteNeighborhoodSize; }
-            set
+            private set
             {
                 _eliteNeighborhoodSize = value; 
                 RaisePropertyChanged();
@@ -151,7 +150,7 @@ namespace ViewModels
         public int BestNeighborhoodSize 
         {
             get { return _bestNeighborhoodSize; }
-            set
+            private set
             {
                 _bestNeighborhoodSize = value; 
                 RaisePropertyChanged();

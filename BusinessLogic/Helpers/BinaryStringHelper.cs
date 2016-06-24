@@ -10,11 +10,6 @@ namespace BusinessLogic.Helpers
             return Convert.ToString(value, 2).PadLeft(length, '0');
         }
 
-        public static long ConvertBinaryStringToInt(string binaryString)
-        {
-            return Convert.ToInt32(binaryString, 2);
-        }
-
         public static string GenerateRandomIndividual(int length)
         {
             var random = new Random();

@@ -24,19 +24,9 @@ namespace BusinessLogic.Algorithms.CheckAllSolutions
             {
                 var individual = BinaryStringHelper.ConvertIntToBinaryString(i, IndividualLength);
                 var reduct = new Reduct(individual, ClusteredDataObjects);
-                if (IsBetterThenBestSolution(reduct))
-                {
+                if (ShouldChangeBestSolution(reduct))
                     BestSolution = reduct;
-                }
             }
-        }
-
-        private bool IsBetterThenBestSolution(Reduct reduct)
-        {
-            return BestSolution == null || BestSolution.Approximation < reduct.Approximation
-                   ||
-                   (BestSolution.Approximation == reduct.Approximation &&
-                    BestSolution.Subset.Count > reduct.Subset.Count);
         }
     }
 }

@@ -10,7 +10,7 @@ namespace BusinessLogic.Helpers
 
         public int ColumnIndex { get; private set; }
         public int HighestMapperNumber => _stringToNumberMapper.Count > 0 
-                                                ? _stringToNumberMapper.Max(n => n.Value) 
+                                                ? _stringToNumberMapper.Max(n => n.Value)
                                                 : -1;
 
         public StringValueToNumberMapper(int columnIndex)
@@ -28,7 +28,8 @@ namespace BusinessLogic.Helpers
         {
             if(ContainsDictionaryKey(key))
                 return _stringToNumberMapper[key];
-            throw new Exception();
+
+            throw new Exception("String to number mapper does not contain key: " + key);
         }
 
         public void AddValue(string key, int value)

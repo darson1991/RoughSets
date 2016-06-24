@@ -5,13 +5,13 @@ namespace BusinessLogic.Algorithms.Common
 {
     public class Reduct
     {
-        public string Individual { get; private set; }
+        public string Individual { get; }
         public List<int> Subset { get; private set; } 
         public List<AbstractClass> AbstractClasses { get; private set; }
         public List<ClusteredDataObject> ReductDataObjects { get; private set; }
         public double Approximation { get; private set; }
 
-        public Reduct(string individual, List<ClusteredDataObject> clusteredDataObjects)
+        public Reduct(string individual, IEnumerable<ClusteredDataObject> clusteredDataObjects)
         {
             Individual = individual;
             GenerateSubset();
@@ -31,16 +31,14 @@ namespace BusinessLogic.Algorithms.Common
             }
         }
 
-        private void GenerateDataObjectsForReduct(List<ClusteredDataObject> clusteredDataObjects)
+        private void GenerateDataObjectsForReduct(IEnumerable<ClusteredDataObject> clusteredDataObjects)
         {
             ReductDataObjects = new List<ClusteredDataObject>();
             if (Subset.Count == 0)
                 return;
 
-            foreach (var clusteredDataObject in clusteredDataObjects)
+            foreach (var reductDataObject in clusteredDataObjects.Select(CreateReductDataObject))
             {
-                var reductDataObject = CreateReductDataObject(clusteredDataObject);
-
                 ReductDataObjects.Add(reductDataObject);
             }
         }
@@ -91,11 +89,11 @@ namespace BusinessLogic.Algorithms.Common
             {
                 isNewAbstractClass = false;
                 abstractClass.ObjectsIndexes.Add(indexOfReductDataObject);
-                if (abstractClass.Decision != reductDataObject.Decision)
-                {
-                    abstractClass.IsClear = false;
-                    abstractClass.Decision = null;
-                }
+                if (abstractClass.Decision == reductDataObject.Decision)
+                    continue;
+
+                abstractClass.IsClear = false;
+                abstractClass.Decision = null;
             }
         }
 
