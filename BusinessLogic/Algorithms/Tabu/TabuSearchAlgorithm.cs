@@ -11,7 +11,6 @@ namespace BusinessLogic.Algorithms.Tabu
     public class TabuSearchAlgorithm: BaseAlgorithm
     {
         private readonly TabuSearchAlgorithmInputValues _inputValues;
-        private int _iterationWithoutImprovementCount;
         private readonly int[] _tabuList; 
 
         public Reduct ActualSolution { get; set; }
@@ -30,7 +29,7 @@ namespace BusinessLogic.Algorithms.Tabu
 
             BestSolution = ActualSolution;
 
-            while (++_iterationWithoutImprovementCount != _inputValues.IterationWithoutImprovement)
+            while (++IterationWithoutImprovementCount != _inputValues.IterationWithoutImprovement)
             {
                 var neighborsList = GenerateSortedNeighborhoodForActualSolution();
 
@@ -43,11 +42,7 @@ namespace BusinessLogic.Algorithms.Tabu
 
                 TabuListActualization((int)indexOfIndividualChange);
 
-                if (!ShouldChangeBestSolution(ActualSolution))
-                    continue;
-
-                BestSolution = ActualSolution;
-                _iterationWithoutImprovementCount = 0;
+                TryToUpdateBestSolution(ActualSolution);
             }
         }
 
@@ -105,7 +100,7 @@ namespace BusinessLogic.Algorithms.Tabu
                 neighborsList.Add(CheckedReducts.FirstOrDefault(r => r.Individual == neighborIndividual));
             }
 
-            return neighborsList.OrderBy(n => n.Approximation).Reverse().ToList();
+            return neighborsList.OrderByDescending(n => n.Approximation).ToList();
         }
 
         private string GenerateNeighborIndividualString(int index)

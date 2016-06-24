@@ -8,7 +8,6 @@ namespace BusinessLogic.Algorithms.Bees
     public class BeesColonyAlgorithm : BaseAlgorithm
     {
         private readonly BeesColonyAlgorithmInputValues _inputValues;
-        private int _iterationWithoutImprovementCount;
 
         public Population ActualPopulation { get; private set; }
 
@@ -25,23 +24,25 @@ namespace BusinessLogic.Algorithms.Bees
 
             BestSolution = ActualPopulation.FittestReduct;
 
-            while (++_iterationWithoutImprovementCount != _inputValues.IterationWithoutImprovement)
+            while (++IterationWithoutImprovementCount != _inputValues.IterationWithoutImprovement)
             {
-                var eliteReducts = ActualPopulation.SortedIndividuals.GetRange(0, _inputValues.NumberOfEliteSolutions);
-                var bestReducts = ActualPopulation.SortedIndividuals.GetRange(_inputValues.NumberOfEliteSolutions, _inputValues.NumberOfBestSolutions);
+                PrepareNewPopulation();
 
-                ActualPopulation.Individuals = new List<Reduct>();
-
-                PrepareNewEliteIndividuals(eliteReducts);
-                PrepareNewBestIndividuals(bestReducts);
-                PrepareRestIndividuals(eliteReducts, bestReducts);
-
-                if (!ShouldChangeBestSolution(ActualPopulation.FittestReduct))
-                    continue;
-
-                BestSolution = ActualPopulation.FittestReduct;
-                _iterationWithoutImprovementCount = 0;
+                TryToUpdateBestSolution(ActualPopulation.FittestReduct);
             }
+        }
+
+        private void PrepareNewPopulation()
+        {
+            var eliteReducts = ActualPopulation.SortedIndividuals.GetRange(0, _inputValues.NumberOfEliteSolutions);
+            var bestReducts = ActualPopulation.SortedIndividuals.GetRange(_inputValues.NumberOfEliteSolutions,
+                _inputValues.NumberOfBestSolutions);
+
+            ActualPopulation.Individuals = new List<Reduct>();
+
+            PrepareNewEliteIndividuals(eliteReducts);
+            PrepareNewBestIndividuals(bestReducts);
+            PrepareRestIndividuals(eliteReducts, bestReducts);
         }
 
         private void SetInitialPopulation()

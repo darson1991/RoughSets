@@ -11,6 +11,8 @@ namespace BusinessLogic.Algorithms
         protected readonly List<ClusteredDataObject> ClusteredDataObjects;
         protected readonly int IndividualLength;
         protected List<Reduct> CheckedReducts;
+        protected int IterationWithoutImprovementCount;
+
 
         public Reduct BestSolution { get; set; }
         public Reduct AllAttributesSolution { get; set; }
@@ -19,7 +21,7 @@ namespace BusinessLogic.Algorithms
         {
             IndividualLength = individualLength;
             ClusteredDataObjects = clusteredDataObjects;
-            CheckedReducts = new List<Reduct>();
+            CheckedReducts = new List<Reduct>();    
         }
 
         public abstract void Calculate();
@@ -45,6 +47,15 @@ namespace BusinessLogic.Algorithms
                    ||
                    (reduct.Approximation == BestSolution.Approximation &&
                     reduct.Subset.Count < BestSolution.Subset.Count);
+        }
+
+        protected void TryToUpdateBestSolution(Reduct reduct)
+        {
+            if (!ShouldChangeBestSolution(reduct))
+                return;
+
+            BestSolution = reduct;
+            IterationWithoutImprovementCount = 0;
         }
 
         private void CreateNewReduct(string individual)

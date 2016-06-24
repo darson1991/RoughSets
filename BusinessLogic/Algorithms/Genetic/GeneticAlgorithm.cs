@@ -11,7 +11,6 @@ namespace BusinessLogic.Algorithms.Genetic
     public class GeneticAlgorithm: BaseAlgorithm
     {
         private readonly GeneticAlgorithmInputValues _inputValues;
-        private int _iterationWithoutImprovementCount;
 
         public Population ActualPopulation { get; private set; }
         
@@ -28,21 +27,15 @@ namespace BusinessLogic.Algorithms.Genetic
 
             BestSolution = ActualPopulation.FittestReduct;
 
-            while (++_iterationWithoutImprovementCount != _inputValues.IterationWithoutImprovement)
+            while (++IterationWithoutImprovementCount != _inputValues.IterationWithoutImprovement)
             {
-                var newPopulation = CreateNewPopulation();
+                ActualPopulation = PrepareNewPopulation();
 
-                ActualPopulation = newPopulation;
-
-                if (!ShouldChangeBestSolution(ActualPopulation.FittestReduct))
-                    continue;
-
-                BestSolution = ActualPopulation.FittestReduct;
-                _iterationWithoutImprovementCount = 0;
+                TryToUpdateBestSolution(ActualPopulation.FittestReduct);
             }
         }
 
-        private Population CreateNewPopulation()
+        private Population PrepareNewPopulation()
         {
             var newPopulation = InitializeNewPopulation();
 
