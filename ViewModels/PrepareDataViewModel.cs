@@ -42,7 +42,7 @@ namespace ViewModels
         public string ContentFileUrl
         {
             get { return _contentFileUrl; }
-            private set
+            set
             {
                 _contentFileUrl = value;
                 RaisePropertyChanged(() => CanFillData);

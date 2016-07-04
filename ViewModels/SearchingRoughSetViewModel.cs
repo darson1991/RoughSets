@@ -60,7 +60,7 @@ namespace ViewModels
         public int IterationWithoutImprovement
         {
             get { return _iterationWithoutImprovement; }
-            private set
+            set
             {
                 _iterationWithoutImprovement = value;
                 RaisePropertyChanged(() => IterationWithoutImprovement);
@@ -70,7 +70,7 @@ namespace ViewModels
         public int PopulationSize
         {
             get { return _populationSize; }
-            private set
+            set
             {
                 _populationSize = value;
                 RaisePropertyChanged(() => PopulationSize);
@@ -80,7 +80,7 @@ namespace ViewModels
         public double MutationPossibility
         {
             get { return _mutationPossibility; }
-            private set
+            set
             {
                 _mutationPossibility = value;
                 RaisePropertyChanged(() => MutationPossibility);
@@ -90,7 +90,7 @@ namespace ViewModels
         public double CrossingOverPossibility
         {
             get { return _crossingOverPossibility; }
-            private set
+            set
             {
                 _crossingOverPossibility = value;
                 RaisePropertyChanged(() => CrossingOverPossibility);
@@ -100,7 +100,7 @@ namespace ViewModels
         public int TournamentSize
         {
             get { return _tournamentSize; }
-            private set
+            set
             {
                 _tournamentSize = value;
                 RaisePropertyChanged(() => TournamentSize);
@@ -110,7 +110,7 @@ namespace ViewModels
         public int TabuListLength
         {
             get { return _tabuListLength; }
-            private set
+            set
             {
                 _tabuListLength = value;
                 RaisePropertyChanged(() => TabuListLength);
@@ -120,7 +120,7 @@ namespace ViewModels
         public int NumberOfEliteSolutions
         {
             get { return _numberOfEliteSolutions; }
-            private set
+            set
             {
                 _numberOfEliteSolutions = value; 
                 RaisePropertyChanged();
@@ -130,7 +130,7 @@ namespace ViewModels
         public int NumberOfBestSolutions
         {
             get { return _numberOfBestSolutions; }
-            private set
+            set
             {
                 _numberOfBestSolutions = value; 
                 RaisePropertyChanged();
@@ -140,7 +140,7 @@ namespace ViewModels
         public int EliteNeighborhoodSize
         {
             get { return _eliteNeighborhoodSize; }
-            private set
+            set
             {
                 _eliteNeighborhoodSize = value; 
                 RaisePropertyChanged();
@@ -150,7 +150,7 @@ namespace ViewModels
         public int BestNeighborhoodSize 
         {
             get { return _bestNeighborhoodSize; }
-            private set
+            set
             {
                 _bestNeighborhoodSize = value; 
                 RaisePropertyChanged();
