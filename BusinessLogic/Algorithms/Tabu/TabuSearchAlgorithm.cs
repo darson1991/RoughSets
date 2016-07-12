@@ -13,8 +13,6 @@ namespace BusinessLogic.Algorithms.Tabu
         private readonly TabuSearchAlgorithmInputValues _inputValues;
         private readonly int[] _tabuList;
         
-        
-
         public Reduct ActualSolution { get; set; }
 
         public TabuSearchAlgorithm(int individualLength, List<ClusteredDataObject> clusteredDataObjects, BaseAlgorithmInputValues inputValues)
@@ -33,6 +31,7 @@ namespace BusinessLogic.Algorithms.Tabu
 
             while (++IterationWithoutImprovementCount != _inputValues.IterationWithoutImprovement)
             {
+                ++IterationNumber;
                 var neighborsList = GenerateSortedNeighborhoodForActualSolution();
 
                 int? indexOfIndividualChange;
@@ -45,6 +44,7 @@ namespace BusinessLogic.Algorithms.Tabu
                 TabuListActualization((int)indexOfIndividualChange);
 
                 TryToUpdateBestSolution(ActualSolution);
+                AddToIterationResultsList(BestSolution.FitnessFunction, BestSolution.Subset.Count);
             }
         }
 

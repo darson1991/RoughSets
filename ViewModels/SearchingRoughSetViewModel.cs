@@ -183,7 +183,8 @@ namespace ViewModels
             Messenger.Default.Send(new BestAndAllAttributesSolutionsMessage
             {
                 BestSolution = _algorithm.BestSolution,
-                AllAttributesSolution = _algorithm.AllAttributesSolution
+                AllAttributesSolution = _algorithm.AllAttributesSolution,
+                IterationResults = _algorithm.IterationResults
             });
         }
 

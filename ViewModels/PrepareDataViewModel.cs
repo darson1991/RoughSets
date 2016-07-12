@@ -148,7 +148,7 @@ namespace ViewModels
                     {
                         Decision = double.Parse(argumentsValuesCollection.Last()),
                         Arguments = argumentsValuesCollection.Take(argumentsValuesCollection.Length - 1)
-                            .Select(double.Parse).ToList()
+                            .Select(l => double.Parse(l.Replace('.', ','))).ToList()
                     });
                 }
                 //.Select(l => double.Parse(l.Replace('.', ','))).ToList()

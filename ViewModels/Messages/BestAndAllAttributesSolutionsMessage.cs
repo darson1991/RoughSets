@@ -1,4 +1,5 @@
-﻿using BusinessLogic.Algorithms.Common;
+﻿using System.Collections.Generic;
+using BusinessLogic.Algorithms.Common;
 
 namespace ViewModels.Messages
 {
@@ -6,5 +7,6 @@ namespace ViewModels.Messages
     {
         public Reduct BestSolution { get; set; }
         public Reduct AllAttributesSolution { get; set; }
+        public List<IterationResult> IterationResults { get; set; } 
     }
 }

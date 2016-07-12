@@ -12,19 +12,27 @@ namespace BusinessLogic.Algorithms
         protected readonly int IndividualLength;
         protected List<Reduct> CheckedReducts;
         protected int IterationWithoutImprovementCount;
-
+        protected int IterationNumber;
 
         public Reduct BestSolution { get; set; }
         public Reduct AllAttributesSolution { get; set; }
+        public List<IterationResult> IterationResults { get; set; } 
 
         protected BaseAlgorithm(int individualLength, List<ClusteredDataObject> clusteredDataObjects)
         {
             IndividualLength = individualLength;
             ClusteredDataObjects = clusteredDataObjects;
-            CheckedReducts = new List<Reduct>();    
+            CheckedReducts = new List<Reduct>();
+            IterationResults = new List<IterationResult>();
+            IterationNumber = 0;
         }
 
         public abstract void Calculate();
+
+        protected void AddToIterationResultsList(double fitness, int attributesCount)
+        {
+            IterationResults.Add(new IterationResult(IterationNumber, fitness, attributesCount));
+        }
 
         protected void CalculateApproximationForAllAttributes()
         {

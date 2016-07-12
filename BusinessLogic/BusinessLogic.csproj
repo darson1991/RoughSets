@@ -60,6 +60,7 @@
     <Compile Include="Algorithms\Bees\BeesColonyAlgorithmInputValues.cs" />
     <Compile Include="Algorithms\Common\AbstractClass.cs" />
     <Compile Include="Algorithms\CheckAllSolutions\CheckAllSolutionsAlgorithm.cs" />
+    <Compile Include="Algorithms\Common\IterationResult.cs" />
     <Compile Include="Algorithms\Common\Population.cs" />
     <Compile Include="Algorithms\Genetic\GeneticAlgorithm.cs" />
     <Compile Include="Algorithms\BaseAlgorithm.cs" />

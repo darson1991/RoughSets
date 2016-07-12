@@ -29,9 +29,11 @@ namespace BusinessLogic.Algorithms.Genetic
 
             while (++IterationWithoutImprovementCount != _inputValues.IterationWithoutImprovement)
             {
+                ++IterationNumber;
                 ActualPopulation = PrepareNewPopulation();
 
                 TryToUpdateBestSolution(ActualPopulation.FittestReduct);
+                AddToIterationResultsList(BestSolution.FitnessFunction, BestSolution.Subset.Count);
             }
         }
 

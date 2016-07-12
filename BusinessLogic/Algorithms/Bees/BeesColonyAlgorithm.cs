@@ -26,9 +26,11 @@ namespace BusinessLogic.Algorithms.Bees
 
             while (++IterationWithoutImprovementCount != _inputValues.IterationWithoutImprovement)
             {
+                ++IterationNumber;
                 PrepareNewPopulation();
 
                 TryToUpdateBestSolution(ActualPopulation.FittestReduct);
+                AddToIterationResultsList(BestSolution.FitnessFunction, BestSolution.Subset.Count);
             }
         }
 

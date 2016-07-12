@@ -1,4 +1,5 @@
-﻿using BusinessLogic.Algorithms.Common;
+﻿using System.Collections.Generic;
+using BusinessLogic.Algorithms.Common;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Messaging;
 using ViewModels.Messages;
@@ -9,6 +10,7 @@ namespace ViewModels
     {
         public Reduct BestSolution { get; set; }
         public Reduct AllAttributesSolution { get; set; }
+        public List<IterationResult> IterationResults { get; set; } 
 
         public ResultsViewModel()
         {
@@ -19,6 +21,7 @@ namespace ViewModels
         {
             BestSolution = message.BestSolution;
             AllAttributesSolution = message.AllAttributesSolution;
+            IterationResults = message.IterationResults;
         }
     }
 }
