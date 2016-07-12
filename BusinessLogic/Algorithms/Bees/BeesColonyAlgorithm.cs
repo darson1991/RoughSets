@@ -59,8 +59,8 @@ namespace BusinessLogic.Algorithms.Bees
 
         private void PrepareNewBestIndividuals(IEnumerable<Reduct> bestReducts)
         {
-            foreach (var bestReducr in bestReducts)
-                GenerateNewSolutionFromNeighbors(bestReducr, _inputValues.BestNeighborhoodSize);
+            foreach (var bestReduct in bestReducts)
+                GenerateNewSolutionFromNeighbors(bestReduct, _inputValues.BestNeighborhoodSize);
         }
 
         private void PrepareNewEliteIndividuals(IEnumerable<Reduct> eliteReducts)
@@ -71,7 +71,7 @@ namespace BusinessLogic.Algorithms.Bees
 
         private void PrepareRestIndividuals(IReadOnlyCollection<Reduct> eliteReducts, IReadOnlyCollection<Reduct> bestReducts)
         {
-            var restReductsCount = ActualPopulation.Individuals.Count - eliteReducts.Count - bestReducts.Count;
+            var restReductsCount = _inputValues.PopulationSize - eliteReducts.Count - bestReducts.Count;
             for (var i = 0; i < restReductsCount; i++)
                 AddRandomIndividualToPopulation();
         }

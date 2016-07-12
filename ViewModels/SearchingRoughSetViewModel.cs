@@ -236,7 +236,7 @@ namespace ViewModels
 
         private void InitializeIterationWithoutImprovementValue()
         {
-            IterationWithoutImprovement = 2000;
+            IterationWithoutImprovement = 30;
         }
 
         private void InitializeAlgorithm()

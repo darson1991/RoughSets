@@ -11,7 +11,9 @@ namespace BusinessLogic.Algorithms.Tabu
     public class TabuSearchAlgorithm: BaseAlgorithm
     {
         private readonly TabuSearchAlgorithmInputValues _inputValues;
-        private readonly int[] _tabuList; 
+        private readonly int[] _tabuList;
+        
+        
 
         public Reduct ActualSolution { get; set; }
 

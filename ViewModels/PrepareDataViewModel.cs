@@ -79,7 +79,7 @@ namespace ViewModels
             try
             {
                 IsBusy = true;
-                ReadContentAndDescriptionFiles();
+                ReadContentFromFiles();
                 PrepareRoughSetInformations();
                 PrepareDataObjects();
                 PrepareClusteredDataObjects();
@@ -113,7 +113,7 @@ namespace ViewModels
             });
         }
 
-        private void ReadContentAndDescriptionFiles()
+        private void ReadContentFromFiles()
         {
             _roughSetsFileContent = FileOperations.GetFileContent(ContentFileUrl);
             _attributesDescription = FileOperations.GetFileContent(DescritpionFileUrl);
@@ -148,9 +148,10 @@ namespace ViewModels
                     {
                         Decision = double.Parse(argumentsValuesCollection.Last()),
                         Arguments = argumentsValuesCollection.Take(argumentsValuesCollection.Length - 1)
-                            .Select(l => double.Parse(l.Replace('.', ','))).ToList()
+                            .Select(double.Parse).ToList()
                     });
                 }
+                //.Select(l => double.Parse(l.Replace('.', ','))).ToList()
             }
             catch (Exception exception)
             {
@@ -160,12 +161,12 @@ namespace ViewModels
 
         private static List<string> PrepareArgumentNames(IReadOnlyList<string> lines)
         {
-            var decisionClasses = new List<string>();
+            var argumentsNames = new List<string>();
 
             for (var i = 1; i < lines.Count; i++)
-                decisionClasses.Add(lines[i].Split(':')[0]);
+                argumentsNames.Add(lines[i].Split(':', ',')[0]);
 
-            return decisionClasses;
+            return argumentsNames;
         }
 
         private static List<string> PrepareDecisionClasses(IReadOnlyList<string> lines)
