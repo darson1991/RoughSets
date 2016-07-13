@@ -4,6 +4,7 @@ using BusinessLogic;
 using BusinessLogic.Algorithms;
 using BusinessLogic.Algorithms.Bees;
 using BusinessLogic.Algorithms.CheckAllSolutions;
+using BusinessLogic.Algorithms.Common;
 using BusinessLogic.Algorithms.Genetic;
 using BusinessLogic.Algorithms.Tabu;
 using GalaSoft.MvvmLight;
@@ -32,6 +33,7 @@ namespace ViewModels
         private int _bestNeighborhoodSize;
 
         public Action GoToResultsPageAction;
+        private double _gamma;
 
         public List<ClusteredDataObject> ClusteredDataObjects { get; private set; }
 
@@ -54,6 +56,17 @@ namespace ViewModels
             {
                 _isBusy = value;
                 RaisePropertyChanged(() => IsBusy);
+            }
+        }
+
+        public double Gamma
+        {
+            get { return _gamma; }
+            set
+            {
+                _gamma = value;
+                Reduct.Gamma = value;
+                RaisePropertyChanged(() => Gamma);
             }
         }
 

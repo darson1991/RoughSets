@@ -23,9 +23,10 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
-            <TextBlock Grid.Row="0" Text="Algorithm best solution"  HorizontalAlignment="Center" FontWeight="Bold" FontSize="18"/>
+            <TextBlock Grid.Row="0" Text="Algorithm best solution" HorizontalAlignment="Center" FontWeight="Bold" FontSize="18"/>
             
             <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
                 <TextBlock Text="Individual" Margin="4 0"/>
@@ -36,8 +37,13 @@
                 <TextBlock Text="Approximation" Margin="4 0"/>
                 <TextBlock Text="{Binding BestSolution.Approximation}" Margin="4 0"/>
             </StackPanel>
-
+            
             <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center">
+                <TextBlock Text="Fitness function" Margin="4 0"/>
+                <TextBlock Text="{Binding BestSolution.FitnessFunction}" Margin="4 0"/>
+            </StackPanel>
+
+            <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Center">
                 <TextBlock Text="Subset length" Margin="4 0"/>
                 <TextBlock Text="{Binding BestSolution.Subset.Count}" Margin="4 0"/>
             </StackPanel>
@@ -45,6 +51,7 @@
 
         <Grid Grid.Row="1" Margin="0 10">
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
@@ -64,17 +71,30 @@
             </StackPanel>
 
             <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center">
+                <TextBlock Text="Fitness function" Margin="4 0"/>
+                <TextBlock Text="{Binding AllAttributesSolution.FitnessFunction}" Margin="4 0"/>
+            </StackPanel>
+
+            <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Center">
                 <TextBlock Text="Subset length" Margin="4 0"/>
                 <TextBlock Text="{Binding AllAttributesSolution.Subset.Count}" Margin="4 0"/>
             </StackPanel>
         </Grid>
 
-        <oxy:Plot Grid.Row="2" Title="Fitness to iteration">
+        <oxy:PlotView Grid.Row="2" Title="Fitness to iteration">
+            <oxy:PlotView.Axes>
+                <oxy:LinearAxis Position="Bottom" Minimum="0" Maximum="{Binding IterationsAxisMaxSize}" />
+                <oxy:LinearAxis Position="Left" Minimum="0" Maximum="{Binding FitnessAxisMaxSize}" />
+            </oxy:PlotView.Axes>
             <oxy:LineSeries ItemsSource="{Binding Path=IterationResults}" DataFieldX="Iteration" DataFieldY="Fitness" />
-        </oxy:Plot>
+        </oxy:PlotView>
 
-        <oxy:Plot Grid.Row="3" Title="Reduct size to iteration">
+        <oxy:PlotView Grid.Row="3" Title="Reduct size to iteration">
+            <oxy:PlotView.Axes>
+                <oxy:LinearAxis Position="Bottom" Minimum="0" Maximum="{Binding IterationsAxisMaxSize}" />
+                <oxy:LinearAxis Position="Left" Minimum="0" Maximum="{Binding ReductAxisMaxSize}" />
+            </oxy:PlotView.Axes>
             <oxy:LineSeries ItemsSource="{Binding Path=IterationResults}" DataFieldX="Iteration" DataFieldY="NumberOfAttributes" />
-        </oxy:Plot>
+        </oxy:PlotView>
     </Grid>
 </Page>

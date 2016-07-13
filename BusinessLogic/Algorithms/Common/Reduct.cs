@@ -5,14 +5,14 @@ namespace BusinessLogic.Algorithms.Common
 {
     public class Reduct
     {
+        public static double Gamma { get; set; }
         public string Individual { get; }
         public List<int> Subset { get; private set; } 
         public List<AbstractClass> AbstractClasses { get; private set; }
         public List<ClusteredDataObject> ReductDataObjects { get; private set; }
         public double Approximation { get; private set; }
 
-        //public double FitnessFunction => 1 - Approximation + 0.5*Individual.Length; //TODO: add parameter gamma despite 0.5 
-        public double FitnessFunction => Approximation;
+        public double FitnessFunction => 1 - Approximation + Gamma * Subset.Count; //TODO: add parameter gamma despite 0.5 
 
         public Reduct(string individual, IEnumerable<ClusteredDataObject> clusteredDataObjects)
         {

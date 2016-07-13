@@ -51,9 +51,9 @@ namespace BusinessLogic.Algorithms
         [SuppressMessage("ReSharper", "CompareOfFloatsByEqualityOperator")]
         protected bool ShouldChangeBestSolution(Reduct reduct)
         {
-            return BestSolution == null || reduct.Approximation > BestSolution.Approximation
+            return BestSolution == null || reduct.FitnessFunction < BestSolution.FitnessFunction
                    ||
-                   (reduct.Approximation == BestSolution.Approximation &&
+                   (reduct.FitnessFunction == BestSolution.FitnessFunction &&
                     reduct.Subset.Count < BestSolution.Subset.Count);
         }
 
