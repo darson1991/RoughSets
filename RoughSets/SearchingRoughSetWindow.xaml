@@ -96,6 +96,8 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
@@ -119,6 +121,12 @@
 
             <TextBlock Grid.Row="5" Grid.Column="0" Text="Best neighborhood size" HorizontalAlignment="Right" Margin="4 0"/>
             <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding BestNeighborhoodSize}" Width="50" Margin="4 0"/>
+
+            <TextBlock Grid.Row="6" Grid.Column="0" Text="Elite neighborhood steps" HorizontalAlignment="Right" Margin="4 0"/>
+            <TextBox Grid.Row="6" Grid.Column="1" Text="{Binding EliteNeighborhoodSteps}" Width="50" Margin="4 0"/>
+
+            <TextBlock Grid.Row="7" Grid.Column="0" Text="Best neighborhood steps" HorizontalAlignment="Right" Margin="4 0"/>
+            <TextBox Grid.Row="7" Grid.Column="1" Text="{Binding BestNeighborhoodSteps}" Width="50" Margin="4 0"/>
         </Grid>
 
         <Button Grid.Row="2" Content="Calculate" Width="120" Margin="0 10" PreviewMouseLeftButtonDown="UIElement_OnPreviewMouseLeftButtonDown">

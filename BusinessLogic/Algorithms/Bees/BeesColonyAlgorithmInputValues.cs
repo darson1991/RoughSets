@@ -7,5 +7,7 @@
         public int NumberOfBestSolutions { get; set; }
         public int EliteNeighborhoodSize { get; set; }
         public int BestNeighborhoodSize { get; set; }
+        public int EliteNeighborhoodSteps { get; set; }
+        public int BestNeighborhoodSteps { get; set; }
     }
 }

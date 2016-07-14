@@ -62,13 +62,13 @@ namespace BusinessLogic.Algorithms.Bees
         private void PrepareNewBestIndividuals(IEnumerable<Reduct> bestReducts)
         {
             foreach (var bestReduct in bestReducts)
-                GenerateNewSolutionFromNeighbors(bestReduct, _inputValues.BestNeighborhoodSize);
+                GenerateNewSolutionFromNeighbors(bestReduct, _inputValues.BestNeighborhoodSize, _inputValues.BestNeighborhoodSteps);
         }
 
         private void PrepareNewEliteIndividuals(IEnumerable<Reduct> eliteReducts)
         {
             foreach (var eliteReduct in eliteReducts)
-                GenerateNewSolutionFromNeighbors(eliteReduct, _inputValues.EliteNeighborhoodSize);
+                GenerateNewSolutionFromNeighbors(eliteReduct, _inputValues.EliteNeighborhoodSize, _inputValues.EliteNeighborhoodSteps);
         }
 
         private void PrepareRestIndividuals(IReadOnlyCollection<Reduct> eliteReducts, IReadOnlyCollection<Reduct> bestReducts)
@@ -78,12 +78,15 @@ namespace BusinessLogic.Algorithms.Bees
                 AddRandomIndividualToPopulation();
         }
 
-        private void GenerateNewSolutionFromNeighbors(Reduct eliteReduct, int neighborhoodSize)
+        private void GenerateNewSolutionFromNeighbors(Reduct eliteReduct, int neighborhoodSize, int neighborhoodSteps)
         {
             var neighborhood = new List<Reduct>();
             for (var i = 0; i < neighborhoodSize; i++)
             {
-                var neighborIndividual = BinaryStringHelper.GenerateNeighborSolution(eliteReduct.Individual);
+                var neighborIndividual = string.Empty;
+                for (var j = 0; j<neighborhoodSteps; j++)
+                    neighborIndividual = BinaryStringHelper.GenerateNeighborSolution(eliteReduct.Individual);
+
                 TryAddReductToCheckedReductsList(neighborIndividual);
                 neighborhood.Add(CheckedReducts.FirstOrDefault(r => r.Individual == neighborIndividual));
             }

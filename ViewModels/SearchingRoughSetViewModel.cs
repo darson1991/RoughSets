@@ -34,6 +34,8 @@ namespace ViewModels
 
         public Action GoToResultsPageAction;
         private double _gamma;
+        private int _eliteNeighborhoodSteps;
+        private int _bestNeighborhoodSteps;
 
         public List<ClusteredDataObject> ClusteredDataObjects { get; private set; }
 
@@ -170,6 +172,26 @@ namespace ViewModels
            }
         }
 
+        public int EliteNeighborhoodSteps
+        {
+            get { return _eliteNeighborhoodSteps; }
+            set
+            {
+                _eliteNeighborhoodSteps = value; 
+                RaisePropertyChanged();
+            }
+        }
+
+        public int BestNeighborhoodSteps
+        {
+            get { return _bestNeighborhoodSteps; }
+            set
+            {
+                _bestNeighborhoodSteps = value;
+                RaisePropertyChanged();
+            }
+        }
+
         public bool IsGenetic => SelectedAlgorithm == KindOfAlgorithm.Genetic;
         public bool IsTabu => SelectedAlgorithm == KindOfAlgorithm.TabuSearch;
         public bool IsBees => SelectedAlgorithm == KindOfAlgorithm.BeesColony;
@@ -246,6 +268,8 @@ namespace ViewModels
             NumberOfBestSolutions = 3;
             EliteNeighborhoodSize = 5;
             BestNeighborhoodSize = 3;
+            EliteNeighborhoodSteps = 5;
+            BestNeighborhoodSteps = 3;
         }
 
         private void InitializeIterationWithoutImprovementValue()
@@ -308,7 +332,9 @@ namespace ViewModels
                 NumberOfEliteSolutions = NumberOfEliteSolutions,
                 NumberOfBestSolutions = NumberOfBestSolutions,
                 EliteNeighborhoodSize = EliteNeighborhoodSize,
-                BestNeighborhoodSize = BestNeighborhoodSize
+                BestNeighborhoodSize = BestNeighborhoodSize,
+                EliteNeighborhoodSteps = EliteNeighborhoodSteps,
+                BestNeighborhoodSteps = BestNeighborhoodSteps
             };
         }
     }
