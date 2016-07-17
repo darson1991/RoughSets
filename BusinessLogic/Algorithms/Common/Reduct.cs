@@ -12,7 +12,7 @@ namespace BusinessLogic.Algorithms.Common
         public List<ClusteredDataObject> ReductDataObjects { get; private set; }
         public double Approximation { get; private set; }
 
-        public double FitnessFunction => 1 - Approximation + Gamma * Subset.Count; //TODO: add parameter gamma despite 0.5 
+        public double FitnessFunction => 1 - Approximation + Gamma * Subset.Count;
 
         public Reduct(string individual, IEnumerable<ClusteredDataObject> clusteredDataObjects)
         {

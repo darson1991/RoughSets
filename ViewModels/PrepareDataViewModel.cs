@@ -151,7 +151,6 @@ namespace ViewModels
                             .Select(l => double.Parse(l.Replace('.', ','))).ToList()
                     });
                 }
-                //.Select(l => double.Parse(l.Replace('.', ','))).ToList()
             }
             catch (Exception exception)
             {
