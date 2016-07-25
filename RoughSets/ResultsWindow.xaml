@@ -81,7 +81,7 @@
             </StackPanel>
         </Grid>
 
-        <oxy:PlotView Grid.Row="2" Title="Fitness to iteration" Visibility="Collapsed">
+        <oxy:PlotView Grid.Row="2" Title="Fitness to iteration">
             <oxy:PlotView.Axes>
                 <oxy:LinearAxis Position="Bottom" Minimum="0" Maximum="{Binding IterationsAxisMaxSize}" />
                 <oxy:LinearAxis Position="Left" Minimum="0" Maximum="{Binding FitnessAxisMaxSize}" />
@@ -89,7 +89,7 @@
             <oxy:LineSeries ItemsSource="{Binding Path=IterationResults}" DataFieldX="Iteration" DataFieldY="Fitness" />
         </oxy:PlotView>
 
-        <oxy:PlotView Grid.Row="3" Title="Reduct size to iteration" Visibility="Collapsed">
+        <oxy:PlotView Grid.Row="3" Title="Reduct size to iteration">
             <oxy:PlotView.Axes>
                 <oxy:LinearAxis Position="Bottom" Minimum="0" Maximum="{Binding IterationsAxisMaxSize}" />
                 <oxy:LinearAxis Position="Left" Minimum="0" Maximum="{Binding ReductAxisMaxSize}" />
