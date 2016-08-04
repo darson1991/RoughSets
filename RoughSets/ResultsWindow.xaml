@@ -15,6 +15,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="0" Margin="0 10">
@@ -89,7 +90,15 @@
             <oxy:LineSeries ItemsSource="{Binding Path=IterationResults}" DataFieldX="Iteration" DataFieldY="Fitness" />
         </oxy:PlotView>
 
-        <oxy:PlotView Grid.Row="3" Title="Reduct size to iteration">
+        <oxy:PlotView Grid.Row="3" Title="Approximation to iteration">
+            <oxy:PlotView.Axes>
+                <oxy:LinearAxis Position="Bottom" Minimum="0" Maximum="{Binding IterationsAxisMaxSize}" />
+                <oxy:LinearAxis Position="Left" Minimum="0" Maximum="{Binding ApproximationAxisMaxSize}" />
+            </oxy:PlotView.Axes>
+            <oxy:LineSeries ItemsSource="{Binding Path=IterationResults}" DataFieldX="Iteration" DataFieldY="Approximation" />
+        </oxy:PlotView>
+        
+        <oxy:PlotView Grid.Row="4" Title="Reduct size to iteration">
             <oxy:PlotView.Axes>
                 <oxy:LinearAxis Position="Bottom" Minimum="0" Maximum="{Binding IterationsAxisMaxSize}" />
                 <oxy:LinearAxis Position="Left" Minimum="0" Maximum="{Binding ReductAxisMaxSize}" />

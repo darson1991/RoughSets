@@ -30,7 +30,7 @@ namespace BusinessLogic.Algorithms.Bees
                 PrepareNewPopulation();
 
                 TryToUpdateBestSolution(ActualPopulation.FittestReduct);
-                AddToIterationResultsList(BestSolution.FitnessFunction, BestSolution.Subset.Count);
+                AddToIterationResultsList(BestSolution.FitnessFunction, BestSolution.Approximation, BestSolution.Subset.Count);
             }
         }
 

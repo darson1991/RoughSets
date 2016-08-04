@@ -11,6 +11,8 @@ namespace BusinessLogic.Algorithms.Genetic
     public class GeneticAlgorithm: BaseAlgorithm
     {
         private readonly GeneticAlgorithmInputValues _inputValues;
+        private static readonly Random _random = new Random();
+        private static readonly object _syncLock = new object();
 
         public Population ActualPopulation { get; private set; }
         
@@ -33,7 +35,7 @@ namespace BusinessLogic.Algorithms.Genetic
                 ActualPopulation = PrepareNewPopulation();
 
                 TryToUpdateBestSolution(ActualPopulation.FittestReduct);
-                AddToIterationResultsList(BestSolution.FitnessFunction, BestSolution.Subset.Count);
+                AddToIterationResultsList(BestSolution.FitnessFunction, BestSolution.Approximation, BestSolution.Subset.Count);
             }
         }
 
@@ -98,15 +100,13 @@ namespace BusinessLogic.Algorithms.Genetic
 
         private bool ShouldMutate()
         {
-            var random = new Random();
-            return random.NextDouble() < _inputValues.MutationPossibility;
+            return RandomDoubleNumber() < _inputValues.MutationPossibility;
         }
 
         private Reduct MutateIndividual(Reduct reduct)
         {
             var individual = reduct.Individual;
-            var random = new Random();
-            var mutationIndex = random.Next(IndividualLength);
+            var mutationIndex = RandomIntNumber(IndividualLength);
             var newGeneValue = individual[mutationIndex] == '1' ? '0' : '1';
             var newIndividual = individual.Substring(0, mutationIndex) + newGeneValue + individual.Substring(mutationIndex + 1);
             return new Reduct(newIndividual, ClusteredDataObjects);
@@ -114,14 +114,12 @@ namespace BusinessLogic.Algorithms.Genetic
 
         private bool ShouldCrossover()
         {
-            var random = new Random();
-            return random.NextDouble() < _inputValues.CrossingOverPossibility;
+            return RandomDoubleNumber() < _inputValues.CrossingOverPossibility;
         }
 
         private Tuple<Reduct, Reduct> CrossoverIndividuals(Tuple<string, string> individualsTuple)
         {
-            var random = new Random();
-            var placeOfCross = random.Next(IndividualLength);
+            var placeOfCross = RandomIntNumber(IndividualLength);
 
             var newIndividual1 = individualsTuple.Item1.Substring(0, placeOfCross) + individualsTuple.Item2.Substring(placeOfCross);
             var newIndividual2 = individualsTuple.Item2.Substring(0, placeOfCross) + individualsTuple.Item1.Substring(placeOfCross);
@@ -146,11 +144,22 @@ namespace BusinessLogic.Algorithms.Genetic
             var tournament = new Population();
             for (var i = 0; i < _inputValues.TournamentSize; i++)
             {
-                var random = new Random();
-                var indexOfIndividual = random.Next(_inputValues.PopulationSize);
+                var indexOfIndividual = RandomIntNumber(_inputValues.PopulationSize);
                 tournament.Individuals.Add(ActualPopulation.Individuals[indexOfIndividual]);
             }
             return tournament;
+        }
+
+        private static int RandomIntNumber(int max)
+        {
+            lock (_syncLock)
+                return _random.Next(max);
+        }
+
+        private static double RandomDoubleNumber()
+        {
+            lock (_syncLock)
+                return _random.NextDouble();
         }
     }
 }

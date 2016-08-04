@@ -44,7 +44,7 @@ namespace BusinessLogic.Algorithms.Tabu
                 TabuListActualization((int)indexOfIndividualChange);
 
                 TryToUpdateBestSolution(ActualSolution);
-                AddToIterationResultsList(BestSolution.FitnessFunction, BestSolution.Subset.Count);
+                AddToIterationResultsList(BestSolution.FitnessFunction, BestSolution.Approximation, BestSolution.Subset.Count);
             }
         }
 

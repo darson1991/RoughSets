@@ -5,6 +5,9 @@ namespace BusinessLogic.Helpers
 {
     public static class BinaryStringHelper
     {
+        private static readonly Random _random = new Random();
+        private static readonly object _syncLock = new object();
+
         public static string ConvertIntToBinaryString(long value, int length)
         {
             return Convert.ToString(value, 2).PadLeft(length, '0');
@@ -12,11 +15,9 @@ namespace BusinessLogic.Helpers
 
         public static string GenerateRandomIndividual(int length)
         {
-            var random = new Random();
-
             var individual = new StringBuilder();
             for (var i = 0; i < length; i++)
-                individual.Append(random.Next(2));
+                individual.Append(RandomNumber(2));
 
             Console.WriteLine(individual.ToString());
             return individual.ToString();
@@ -24,8 +25,7 @@ namespace BusinessLogic.Helpers
 
         public static string GenerateNeighborSolution(string individual)
         {
-            var random = new Random();
-            var index = random.Next(individual.Length);
+            var index = RandomNumber(individual.Length);
             var indexValue = individual[index] == '0' ? '1' : '0';
             return individual.Substring(0, index) + indexValue + individual.Substring(index + 1);
         }
@@ -38,6 +38,12 @@ namespace BusinessLogic.Helpers
                 individual.Append('1');
             }
             return individual.ToString();
+        }
+
+        private static int RandomNumber(int max)
+        {
+            lock (_syncLock)
+                return _random.Next(max);
         }
     }
 }

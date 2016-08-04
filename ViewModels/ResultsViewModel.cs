@@ -14,6 +14,7 @@ namespace ViewModels
         public List<IterationResult> IterationResults { get; set; }
         public int IterationsAxisMaxSize => IterationResults.Count + 1;
         public double FitnessAxisMaxSize => 1.2 * IterationResults.Max(i => i.Fitness);
+        public double ApproximationAxisMaxSize => 1.2 * IterationResults.Max(i => i.Approximation);
         public int ReductAxisMaxSize => (int)(1.2 * IterationResults.Max(i => i.NumberOfAttributes));
 
         public ResultsViewModel()

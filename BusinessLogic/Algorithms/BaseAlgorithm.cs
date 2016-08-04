@@ -29,9 +29,9 @@ namespace BusinessLogic.Algorithms
 
         public abstract void Calculate();
 
-        protected void AddToIterationResultsList(double fitness, int attributesCount)
+        protected void AddToIterationResultsList(double fitness, double aproximation, int attributesCount)
         {
-            IterationResults.Add(new IterationResult(IterationNumber, fitness, attributesCount));
+            IterationResults.Add(new IterationResult(IterationNumber, fitness, aproximation, attributesCount));
         }
 
         protected void CalculateApproximationForAllAttributes()
