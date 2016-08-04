@@ -102,7 +102,7 @@ namespace BusinessLogic.Algorithms.Tabu
                 neighborsList.Add(CheckedReducts.FirstOrDefault(r => r.Individual == neighborIndividual));
             }
 
-            return neighborsList.OrderByDescending(n => n.Approximation).ToList();
+            return neighborsList.OrderBy(n => n.FitnessFunction).ToList();
         }
 
         private string GenerateNeighborIndividualString(int index)
