@@ -59,7 +59,9 @@ namespace BusinessLogic.Algorithms.Tabu
                     continue;
 
                 // ReSharper disable once InvertIf
-                if (ShouldChangeBestSolution(neighbor) || _tabuList[(int)index] == 0)
+                if ((ShouldChangeBestSolution(neighbor) || _tabuList[(int)index] == 0))
+                    // &&
+                    //(neighbor.Approximation >= 0.9 * AllAttributesSolution.Approximation || neighbor.FitnessFunction <= BestSolution.FitnessFunction)
                 {
                     bestNeighbor = neighbor;
                     indexOfIndividualChange = index;
@@ -102,7 +104,7 @@ namespace BusinessLogic.Algorithms.Tabu
                 neighborsList.Add(CheckedReducts.FirstOrDefault(r => r.Individual == neighborIndividual));
             }
 
-            return neighborsList.OrderBy(n => n.FitnessFunction).ToList();
+            return neighborsList.OrderBy(n => n.FitnessFunction).ThenBy(n => n.Subset.Count).ToList();
         }
 
         private string GenerateNeighborIndividualString(int index)
